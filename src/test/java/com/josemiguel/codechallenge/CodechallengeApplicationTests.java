@@ -36,7 +36,7 @@ class CodechallengeApplicationTests {
 		 		+ "    \"accountName\":\"prueba\",\n"
 		 		+ "    \"iban\":\"ES9820385778983000760236\"\n"
 		 		+ "}";
-		 mockMvc.perform(post("/api/v1/account").
+		 mockMvc.perform(post("/api/v1/accounts").
 				 contentType(MediaType.APPLICATION_JSON).
 				 content(body)).andDo(r -> {
 				
@@ -85,7 +85,7 @@ class CodechallengeApplicationTests {
 				+ "}";
 		
 		
-		mockMvc.perform(post("/api/v1/transaction").
+		mockMvc.perform(post("/api/v1/transactions").
 			 contentType(MediaType.APPLICATION_JSON).
 			 content(transactionBody)).
 		 	 andExpect(status().is(201));
@@ -140,7 +140,7 @@ class CodechallengeApplicationTests {
 				+ "}";
 		
 		
-		mockMvc.perform(post("/api/v1/transaction").
+		mockMvc.perform(post("/api/v1/transactions").
 			 contentType(MediaType.APPLICATION_JSON).
 			 content(transactionBody)).
 		 	 andExpect(status().is(201));
@@ -197,7 +197,7 @@ class CodechallengeApplicationTests {
 				+ "}";
 		
 		
-		mockMvc.perform(post("/api/v1/transaction").
+		mockMvc.perform(post("/api/v1/transactions").
 			 contentType(MediaType.APPLICATION_JSON).
 			 content(transactionBody)).
 		 	 andExpect(status().is(201));
@@ -251,7 +251,7 @@ class CodechallengeApplicationTests {
 				+ "}";
 		
 		
-		mockMvc.perform(post("/api/v1/transaction").
+		mockMvc.perform(post("/api/v1/transactions").
 			 contentType(MediaType.APPLICATION_JSON).
 			 content(transactionBody)).
 		 	 andExpect(status().is(201));
@@ -309,7 +309,7 @@ class CodechallengeApplicationTests {
 				+ "}";
 		
 		
-		mockMvc.perform(post("/api/v1/transaction").
+		mockMvc.perform(post("/api/v1/transactions").
 			 contentType(MediaType.APPLICATION_JSON).
 			 content(transactionBody)).
 		 	 andExpect(status().is(201));
@@ -365,7 +365,7 @@ class CodechallengeApplicationTests {
 				+ "}";
 		
 		
-		mockMvc.perform(post("/api/v1/transaction").
+		mockMvc.perform(post("/api/v1/transactions").
 			 contentType(MediaType.APPLICATION_JSON).
 			 content(transactionBody)).
 		 	 andExpect(status().is(201));
@@ -420,7 +420,7 @@ class CodechallengeApplicationTests {
 				+ "}";
 		
 		
-		mockMvc.perform(post("/api/v1/transaction").
+		mockMvc.perform(post("/api/v1/transactions").
 			 contentType(MediaType.APPLICATION_JSON).
 			 content(transactionBody)).
 		 	 andExpect(status().is(201));
