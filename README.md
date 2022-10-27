@@ -15,3 +15,4 @@ For running the application (**supposing that you have installed jdk 11 or later
 2. From the command prompt go to the root project
 3. Launch the following command **mvn test spring-boot:run**
 4. If the application compiles succesfully and  all the test pass (i've created one for each business flow), the application should start successfully listening in the port 8080)
+5. The contract of the service (OpenApi) can be viewed in the following endpoint: **http://localhost:8080/swagger-ui/index.html**
