@@ -13,5 +13,5 @@ For running the application (**supposing that you have installed jdk 11 or later
 
 1. Clone the repository
 2. From the command prompt go to the root project
-3. Launch the following command **mvn spring-boot:run**
+3. Launch the following command **mvn test spring-boot:run**
 4. If the application compiles succesfully and  all the test pass (i've created one for each business flow), the application should start successfully listening in the port 8080)
