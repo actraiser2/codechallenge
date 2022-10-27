@@ -23,11 +23,14 @@ import com.josemiguel.codechallenge.domain.commands.CreateTransactionCommand;
 import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.TransactionDTO;
 import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.TransactionStatusRequestDTO;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping(value = "/api/v1", consumes = "application/json", produces = "application/json")
 @AllArgsConstructor
+@Tag(name = "Services available for the project code challenge")
 public class RestAdapter {
 
 	private CreateAccountUseCase createAccountUseCase;
@@ -35,19 +38,22 @@ public class RestAdapter {
 	private SearchTransactionsUseCase searchTransactionsUseCase;
 	private TransactionStatusUseCase transactionStatusUseCase;
 	
-	@PostMapping("/account")
+	@PostMapping("/accounts")
+	@Operation(description = "This method allows you to insert a new account")
 	public ResponseEntity<Void> createAccount(@RequestBody @Valid CreateAccountCommand command) {
 		createAccountUseCase.createAccount(command);
 		return ResponseEntity.status(201).build();
 	}
 	
-	@PostMapping("/transaction")
+	@PostMapping("/transactions")
+	@Operation(description = "This method allows you to insert a new movement")
 	public ResponseEntity<Void> createTransaction(@RequestBody @Valid CreateTransactionCommand command) {
 		createTransactionUseCase.createTransaction(command);
 		return ResponseEntity.status(201).build();
 	}
 	
 	@GetMapping(value = "/transactions", consumes = "*/*")
+	@Operation(description = "This method is used for querying movements using a couple filters")
 	public List<TransactionDTO> searchTransactions(@RequestParam String iban, @RequestParam int sortByAmount) {
 		
 		return searchTransactionsUseCase.searchTransactions(iban, sortByAmount).
@@ -67,6 +73,7 @@ public class RestAdapter {
 	}
 	
 	@PostMapping(value = "/transactionStatus")
+	@Operation(description = "This method is used for querying the status of a movement")
 	public TransactionDTO transactionStatus(@Valid @RequestBody TransactionStatusRequestDTO request) {
 		var transaction = transactionStatusUseCase.getTransactionStatus(request);
 		var transactionStatus = transactionStatusUseCase.applyBusinessRule(transaction, request.getChannel());
