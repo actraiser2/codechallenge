@@ -7,10 +7,12 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,6 +33,8 @@ import lombok.AllArgsConstructor;
 @RequestMapping(value = "/api/v1", consumes = "application/json", produces = "application/json")
 @AllArgsConstructor
 @Tag(name = "Services available for the project code challenge")
+@CrossOrigin(originPatterns = "www.myvalue.com", 
+	allowedHeaders = {"Signature"})
 public class RestAdapter {
 
 	private CreateAccountUseCase createAccountUseCase;
@@ -43,6 +47,12 @@ public class RestAdapter {
 	public ResponseEntity<Void> createAccount(@RequestBody @Valid CreateAccountCommand command) {
 		createAccountUseCase.createAccount(command);
 		return ResponseEntity.status(201).build();
+	}
+	
+	@GetMapping(value = "/csrf", consumes = "*/*")
+	@Operation(description = "This method allows you to insert a new movement")
+	public void hello() {
+
 	}
 	
 	@PostMapping("/transactions")
@@ -96,5 +106,6 @@ public class RestAdapter {
 			});
 		
 	}
+	
 	
 }

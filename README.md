@@ -1,4 +1,4 @@
-# Instructions for running the amazing codechallenge
+Instructions for running the amazing codechallenge
 
 Application developed according the hexagonal architecture principles and DDD methodology using
 the Spring Boot framework
@@ -9,7 +9,7 @@ Next steps for the future:
 3. Create a pipeline based in Jenkins for CI/CD
 
 
-For running the application (**supposing that you have installed jdk 11 or later and maven in your laptop**)
+for running the application (**supposing that you have installed jdk 11 or later and maven in your laptop**) 
 
 1. Clone the repository
 2. From the command prompt go to the root project

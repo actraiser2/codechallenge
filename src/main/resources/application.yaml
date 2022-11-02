@@ -4,3 +4,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+      
+server:
+  servlet:
+    session:
+      cookie:
+        same-site: Strict
