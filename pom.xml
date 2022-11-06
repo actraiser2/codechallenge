@@ -14,7 +14,7 @@
 	<name>codechallenge</name>
 	<description>Demo project</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -119,14 +119,22 @@
 			</plugin>
 			
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
+       			<groupId>com.google.cloud.tools</groupId>
+		        <artifactId>jib-maven-plugin</artifactId>
+		        <version>3.3.1</version>
+		        <configuration>
+		          <to>
+		            <image>actraiser.azurecr.io/codechallenge</image>
+		            <auth>
+		            	<username>${env.registry_username}</username>
+		            	<password>${env.registry_password}</password>
+		            </auth>
+		          </to>
+		          <container>
+		          	<mainClass>com.josemiguel.codechallenge.CodechallengeApplication</mainClass>
+		          </container>
+		        </configuration>
+     	 	</plugin>
 		</plugins>
 	</build>
 
