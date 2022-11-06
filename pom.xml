@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.josemiguel</groupId>
 	<artifactId>codechallenge</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<name>codechallenge</name>
 	<description>Demo project</description>
 	<properties>
