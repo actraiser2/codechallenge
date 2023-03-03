@@ -28,7 +28,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping(value = "/api/v2", consumes = "application/json", produces = "application/json")
+@RequestMapping(value = "/api/v3", consumes = "application/json", produces = "application/json")
 @AllArgsConstructor
 @Tag(name = "Services available for the project code challenge")
 public class RestAdapter {
