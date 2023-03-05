@@ -17,13 +17,17 @@ public class CodeChallengeRoute extends RouteBuilder {
 	@Override
 	public void configure() throws Exception {
 		// TODO Auto-generated method stub
-		from("sftp:localhost:2222/input?username=jmbesada&password=fenix000&useUserKnownHostsFile=false&delete=true").
-		bean(TransformMesage.class).
-		process(e -> {
-			String payload = e.getMessage().getBody(String.class);
-			
-			log.info(e.getIn().getBody(String.class));
-		});
+		from("sftp:localhost:2222/input?username=jmbesada&password=RAW(fenix000)&useUserKnownHostsFile=false&delete=true").
+		//bean(TransformMesage.class).
+		choice().
+			when(header("CamelFileName").endsWith(".xml")).
+				toD("sftp:localhost:2222/output/xml?username=jmbesada&password=fenix000&"
+				+ "fileName=${header['camelFileName']}-${date:now:yyyyMMdd-hhmmss}").
+			when(header("CamelFileName").endsWith(".yaml")).
+				toD("sftp:localhost:2222/output/yaml?username=jmbesada&password=fenix000&"
+					+ "fileName=${header['camelFileName']}-${date:now:yyyyMMdd-hhmmss}").
+			otherwise().
+				to("sftp:localhost:2222/remainder?username=jmbesada&password=fenix000");
 	}
 
 }

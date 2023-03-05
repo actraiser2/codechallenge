@@ -1,11 +1,11 @@
 package com.josemiguel.codechallenge.infrastructure.adapters.input;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.apache.camel.ProducerTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,11 +37,13 @@ public class RestAdapter {
 	private CreateTransactionUseCase createTransactionUseCase;
 	private SearchTransactionsUseCase searchTransactionsUseCase;
 	private TransactionStatusUseCase transactionStatusUseCase;
+	private ProducerTemplate producerTemplate;
 	
 	@PostMapping("/accounts")
 	@Operation(description = "This method allows you to insert a new account")
 	public ResponseEntity<Void> createAccount(@RequestBody @Valid CreateAccountCommand command) {
 		createAccountUseCase.createAccount(command);
+		producerTemplate.sendBody("direct:restCodechallenge", command);
 		return ResponseEntity.status(201).build();
 	}
 	
