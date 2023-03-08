@@ -2,7 +2,7 @@ name: Build
 on: push
 env:
   registry: ghcr.io
-  image: ctraiser2/codechallenge
+  image: actraiser2/codechallenge
   password: ${{secrets.TOKEN}}
   username: actraiser2
 jobs:
