@@ -119,7 +119,7 @@
 				<configuration>
 					<docker>
 						<publishRegistry>
-							<username>${env.password}</username>
+							<username>${env.username}</username>
 							<password>${env.password}</password>
 						</publishRegistry>
 					</docker>
