@@ -20,6 +20,8 @@ jobs:
           run: mvn compile
         - name: test & package
           run: mvn package
+        - name: log token
+          run: echo PASSWORD:${PASSWORD}
         - name: publish
           run: mvn spring-boot:build-image
            
