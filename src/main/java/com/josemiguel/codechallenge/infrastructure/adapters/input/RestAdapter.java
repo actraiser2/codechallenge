@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.apache.camel.ProducerTemplate;
+import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,8 @@ import com.josemiguel.codechallenge.domain.commands.CreateTransactionCommand;
 import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.TransactionDTO;
 import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.TransactionStatusRequestDTO;
 
+import io.micrometer.core.annotation.Counted;
+import io.micrometer.core.instrument.MeterRegistry;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -38,12 +41,16 @@ public class RestAdapter {
 	private SearchTransactionsUseCase searchTransactionsUseCase;
 	private TransactionStatusUseCase transactionStatusUseCase;
 	private ProducerTemplate producerTemplate;
+	private MeterRegistry meterRegistry;
+	private Environment env;
 	
 	@PostMapping("/accounts")
 	@Operation(description = "This method allows you to insert a new account")
+	@Counted(description = "Number of accounts created")
 	public ResponseEntity<Void> createAccount(@RequestBody @Valid CreateAccountCommand command) {
 		createAccountUseCase.createAccount(command);
 		producerTemplate.sendBody("direct:restCodechallenge", command);
+		meterRegistry.counter("accounts", "app", env.getProperty("app.version")).increment();
 		return ResponseEntity.status(201).build();
 	}
 	

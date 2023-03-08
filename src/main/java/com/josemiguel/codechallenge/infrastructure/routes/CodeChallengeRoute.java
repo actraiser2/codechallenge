@@ -13,12 +13,16 @@ import lombok.extern.slf4j.Slf4j;
 public class CodeChallengeRoute extends RouteBuilder {
 
 	private CamelContext context;
+	private TransformMesage trasformMessage;
 	
 	@Override
 	public void configure() throws Exception {
 		// TODO Auto-generated method stub
 		from("sftp:localhost:2222/input?username=jmbesada&password=RAW(fenix000)&useUserKnownHostsFile=false&delete=true").
-		//bean(TransformMesage.class).
+		filter(m -> m.getIn().getBody(String.class).contains("Hello")).
+		bean(trasformMessage).
+		log("File passed: ${header['CamelFileName']}").
+		marshal().json().
 		choice().
 			when(header("CamelFileName").endsWith(".xml")).
 				toD("sftp:localhost:2222/output/xml?username=jmbesada&password=fenix000&"

@@ -1,0 +1,19 @@
+name: Build
+on: push
+env:
+  registry: https://ghcr.io
+  image: actraiser2/codechallenge
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+        - name: checkout
+          uses: actions/checkout@v3 
+        - name: setup jdk
+          uses: actions/setup-java@v3
+          with: 
+              distribution: temurin 
+              java-version: 17 
+        - name: compile source code
+          run: mvn compile
+           
