@@ -18,4 +18,6 @@ jobs:
           run: mvn compile
         - name: test & package
           run: mvn package
+        - name: publish
+          run: mvn spring-boot:buid-image
            
