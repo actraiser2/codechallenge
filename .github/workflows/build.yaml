@@ -4,6 +4,7 @@ env:
   registry: ghcr.io
   image: actraiser2/codechallenge
   password: ${{secrets.TOKEN}}
+  username: actraiser2
 jobs:
   build:
     runs-on: ubuntu-22.04
