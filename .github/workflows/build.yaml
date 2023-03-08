@@ -1,5 +1,7 @@
 name: Build
-on: push
+on: 
+  - push
+  - workflow_dispatch
 env:
   registry: ghcr.io
   image: actraiser2/codechallenge:${{github.sha}}
