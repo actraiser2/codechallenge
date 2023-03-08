@@ -117,6 +117,12 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<docker>
+						<publishRegistry>
+							<username>${env.password}</username>
+							<password>${env.password}</password>
+						</publishRegistry>
+					</docker>
 					<image>
 						<publish>true</publish>
 						<name>${env.registry}/${env.image}</name>
