@@ -16,4 +16,6 @@ jobs:
               java-version: 17 
         - name: compile source code
           run: mvn compile
+        - name: test & package
+          run: mvn package
            
