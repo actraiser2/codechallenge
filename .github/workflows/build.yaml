@@ -1,7 +1,7 @@
 name: Build
 on: push
 env:
-  registry: https://ghcr.io
+  registry: ghcr.io
   image: actraiser2/codechallenge
 jobs:
   build:
