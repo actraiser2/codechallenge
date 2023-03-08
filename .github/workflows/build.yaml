@@ -3,7 +3,7 @@ on: push
 env:
   registry: ghcr.io
   image: actraiser2/codechallenge
-  password: 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
+  password: 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
 jobs:
   build:
     runs-on: ubuntu-22.04
