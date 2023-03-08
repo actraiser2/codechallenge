@@ -3,7 +3,7 @@ on: push
 env:
   registry: ghcr.io
   image: actraiser2/codechallenge:${{github.sha}}
-  password: ${{secrets.GITHUB_TOKEN}}
+  password: ${{secrets.TOKEN}}
   username: ${{github.actor}}
 jobs:
   build:
