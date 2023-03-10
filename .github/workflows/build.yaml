@@ -23,7 +23,7 @@ jobs:
         - name: test & package
           run: mvn package
         - name: log token
-          run: env
+          run: mvn --version
         - name: publish
           run: mvn spring-boot:build-image
            
