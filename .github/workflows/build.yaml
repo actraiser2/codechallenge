@@ -3,10 +3,10 @@ on:
   - push
   - workflow_dispatch
 env:
-  registry: ghcr.io
-  image: actraiser2/codechallenge:${{github.sha}}
-  password: ${{secrets.TOKEN}}
-  username: ${{github.actor}}
+  REGISTRY: ghcr.io
+  IMAGE: actraiser2/codechallenge:${{github.sha}}
+  PASSWORD: ${{secrets.TOKEN}}
+  USERNAME: ${{github.actor}}
 jobs:
   build:
     runs-on: ubuntu-22.04
