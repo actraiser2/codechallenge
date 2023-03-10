@@ -115,6 +115,7 @@
 		     <version>3.4.1</version>
 		</dependency>
 		
+		
 	</dependencies>
 
 	<build>
@@ -123,6 +124,11 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					 <environmentVariables>
+                		<image>actraiser2/codechallenge</image>
+                		<registry>ghcr.io</registry>
+                	
+            		</environmentVariables>
 					<docker>
 						<publishRegistry>
 							<username>${env.username}</username>
