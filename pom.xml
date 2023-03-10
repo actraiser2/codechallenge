@@ -109,6 +109,12 @@
     		<artifactId>simpleclient_caffeine</artifactId>
 		</dependency>
 		
+		<dependency>
+		     <groupId>io.dekorate</groupId>
+		     <artifactId>kubernetes-spring-starter</artifactId>
+		     <version>3.4.1</version>
+		</dependency>
+		
 	</dependencies>
 
 	<build>
