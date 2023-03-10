@@ -124,11 +124,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					 <environmentVariables>
-                		<image>actraiser2/codechallenge</image>
-                		<registry>ghcr.io</registry>
-                	
-            		</environmentVariables>
+	
 					<docker>
 						<publishRegistry>
 							<username>${env.username}</username>
@@ -137,7 +133,7 @@
 					</docker>
 					<image>
 						<publish>true</publish>
-						<name>${env.registry}/${env.image}</name>
+						<name>${env.REGISTRY}/${env.IMAGE}</name>
 					</image>
 				</configuration>
 			</plugin>
