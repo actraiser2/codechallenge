@@ -11,4 +11,4 @@ jobs:
         uses: steebchen/kubectl@v2.1.1
         with: 
           config: ${{secrets.KUBE_CONFIG_DATA}}
-          command: kubectl get pods
+          command: get pods
