@@ -1,6 +1,5 @@
 package com.josemiguel.codechallenge.application.ports.input;
 
-import java.math.BigDecimal;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -13,7 +12,6 @@ import com.josemiguel.codechallenge.application.ports.output.TransactionReposito
 import com.josemiguel.codechallenge.application.usecases.CreateTransactionUseCase;
 import com.josemiguel.codechallenge.domain.commands.CreateTransactionCommand;
 import com.josemiguel.codechallenge.domain.model.entities.Transaction;
-import com.josemiguel.codechallenge.infrastructure.errors.exceptions.AccountBalanceBelowZeroException;
 import com.josemiguel.codechallenge.infrastructure.errors.exceptions.ExistingTransactionException;
 import com.josemiguel.codechallenge.infrastructure.errors.exceptions.NotFoundAccoundExeption;
 
