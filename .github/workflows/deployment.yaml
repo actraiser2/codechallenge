@@ -7,8 +7,8 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v3
-      - name: setup-kubectl
+      - name: "setup-kubectl && deploy"
         uses: steebchen/kubectl@v2.1.1
         with: 
           config: ${{vars.KUBE_CONFIG_DATA}}
-          command: get pods
+          command: apply -f ./k8s/kubernetes.yml
