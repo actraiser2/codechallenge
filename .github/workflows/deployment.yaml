@@ -8,8 +8,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
       - name: setup-kubectl
-        uses: steebchen/kubectl@v2.0.0
+        uses: steebchen/kubectl@v2.1.1
         with: 
           config: ${{secrets.KUBE_CONFIG_DATA}}
-      - name: Test kubectl
-        run: kubectl version
+          command: kubectl get pods
