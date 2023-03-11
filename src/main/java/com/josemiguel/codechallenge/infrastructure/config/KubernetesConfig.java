@@ -19,7 +19,7 @@ import io.dekorate.kubernetes.annotation.ServiceType;
 	
 	)
 
-@DockerBuild(registry="ghcr.io", group = "actraiser2", version = "latest")
+@DockerBuild(registry="ghcr.io", group = "actraiser2")
 public class KubernetesConfig {
 
 }
