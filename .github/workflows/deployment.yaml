@@ -7,6 +7,11 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v3
+      - name: "setup-kubectl && delete"
+        uses: steebchen/kubectl@v2.1.1
+        with: 
+          config: ${{vars.KUBE_CONFIG_DATA}}
+          command: delete -f ./k8s/kubernetes.yml
       - name: "setup-kubectl && deploy"
         uses: steebchen/kubectl@v2.1.1
         with: 
