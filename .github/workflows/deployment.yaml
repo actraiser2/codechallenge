@@ -10,5 +10,5 @@ jobs:
       - name: setup-kubectl
         uses: steebchen/kubectl@v2.1.1
         with: 
-          config: ${{secrets.KUBE_CONFIG_DATA}}
+          config: ${{vars.KUBE_CONFIG_DATA}}
           command: get pods
