@@ -33,7 +33,7 @@ spec:
           envFrom:
             - configMapRef:
                 name: codechallenge-config
-          image: ghcr.io/actraiser2/codechallenge:1.0.1
+          image: ghcr.io/actraiser2/codechallenge:1.0.2
           imagePullPolicy: Always
           livenessProbe:
             failureThreshold: 3
