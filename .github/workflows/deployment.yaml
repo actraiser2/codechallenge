@@ -1,0 +1,15 @@
+name: Deployment
+on: 
+  - workflow_dispatch
+jobs:
+  deploy:
+    runs_on: ubuntu-22.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: setup-kubectl
+        uses: steebchen/kubectl@v2.0.0
+        with: 
+          config: ${{secrets.KUBE_CONFIG_DATA}}
+      - name: Test kubectl
+        run: kubectl version
