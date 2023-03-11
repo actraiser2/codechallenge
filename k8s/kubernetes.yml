@@ -4,25 +4,25 @@ kind: Deployment
 metadata:
   annotations:
     app.dekorate.io/vcs-url: <<unknown>>
-    app.dekorate.io/commit-id: 8f291ee7855eb22662f5ab0bc8592f938a378b20
+    app.dekorate.io/commit-id: 91ee9cad59b802fb3164d1ccaaa3c414e6d1a2d2
   labels:
-    app.kubernetes.io/version: 1.0.0
     app.kubernetes.io/name: codechallenge
+    app.kubernetes.io/version: 1.0.1
   name: codechallenge
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/version: 1.0.0
       app.kubernetes.io/name: codechallenge
+      app.kubernetes.io/version: 1.0.1
   template:
     metadata:
       annotations:
         app.dekorate.io/vcs-url: <<unknown>>
-        app.dekorate.io/commit-id: 8f291ee7855eb22662f5ab0bc8592f938a378b20
+        app.dekorate.io/commit-id: 91ee9cad59b802fb3164d1ccaaa3c414e6d1a2d2
       labels:
-        app.kubernetes.io/version: 1.0.0
         app.kubernetes.io/name: codechallenge
+        app.kubernetes.io/version: 1.0.1
     spec:
       containers:
         - env:
@@ -33,7 +33,7 @@ spec:
           envFrom:
             - configMapRef:
                 name: codechallenge-config
-          image: josem/codechallenge:1.0.0
+          image: ghcr.io/actraiser2/codechallenge:1.0.1
           imagePullPolicy: Always
           livenessProbe:
             failureThreshold: 3
@@ -66,10 +66,10 @@ kind: Service
 metadata:
   annotations:
     app.dekorate.io/vcs-url: <<unknown>>
-    app.dekorate.io/commit-id: 8f291ee7855eb22662f5ab0bc8592f938a378b20
+    app.dekorate.io/commit-id: 91ee9cad59b802fb3164d1ccaaa3c414e6d1a2d2
   labels:
     app.kubernetes.io/name: codechallenge
-    app.kubernetes.io/version: 1.0.0
+    app.kubernetes.io/version: 1.0.1
   name: codechallenge
 spec:
   ports:
@@ -79,5 +79,5 @@ spec:
       targetPort: 8080
   selector:
     app.kubernetes.io/name: codechallenge
-    app.kubernetes.io/version: 1.0.0
+    app.kubernetes.io/version: 1.0.1
   type: ClusterIP
