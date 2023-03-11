@@ -3,7 +3,7 @@ on:
   - workflow_dispatch
 jobs:
   deploy:
-    runs_on: ubuntu-22.04
+    runs-on: ubuntu-22.04
     steps:
       - name: checkout
         uses: actions/checkout@v3
