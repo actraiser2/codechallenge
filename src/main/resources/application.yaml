@@ -9,6 +9,9 @@ spring:
   cloud:
     function:
       definition: doSomething
+  batch:
+    jdbc:
+      initialize-schema: always
 management:
   endpoints:
     web:
@@ -21,4 +24,5 @@ management:
   endpoint:
     health:
       show-details: always
+
       
