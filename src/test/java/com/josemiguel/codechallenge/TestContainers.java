@@ -43,12 +43,6 @@ public class TestContainers {
 				date(LocalDateTime.now()).
 				fee(new BigDecimal(3)).reference("2").build();
 		
-		Path base = Paths.get("D:/var/log");
-		
-		Stream<Path> stream = Files.walk(base);
-		
-		stream.forEach(p -> {
-			//System.out.println(p.toString() + ";" + p.getFileSystem();
-		});
+	
 	}
 }
