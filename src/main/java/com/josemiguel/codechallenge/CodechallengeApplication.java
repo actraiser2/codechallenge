@@ -8,7 +8,7 @@ import org.springframework.cloud.function.context.FunctionalSpringApplication;
 public class CodechallengeApplication {
 
 	public static void main(String[] args) {
-		FunctionalSpringApplication.run(CodechallengeApplication.class, args);
+		SpringApplication.run(CodechallengeApplication.class, args);
 	} 
 
 }
