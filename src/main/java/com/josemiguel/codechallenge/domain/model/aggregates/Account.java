@@ -68,7 +68,7 @@ public class Account {
 			
 			var transaction = new Transaction();
 			transaction.setAccount(this);
-			transaction.setAmount(command.getAmount());
+			transaction.setAmount(command.getAmount().doubleValue());
 			transaction.setFee(command.getFee());
 			transaction.setDate(command.getOperationDate());
 			transaction.setReference(command.getReference() != null ? command.getReference() : UUID.randomUUID().toString());

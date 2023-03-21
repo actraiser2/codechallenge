@@ -11,7 +11,7 @@ public class RestCodeChallengeRoute extends RouteBuilder {
 		// TODO Auto-generated method stub
 		from("direct:restCodechallenge").
 		marshal().json().
-			toD("sftp:localhost:2222/output/remainder?username=jmbesada&password=fenix000&"
+			toD("sftp:localhost:22222/output/remainder?username=jmbesada&password=fenix000&"
 					+ "fileName=${date:now:ddMMyyyy-hhmmss}.json");
 	}
 

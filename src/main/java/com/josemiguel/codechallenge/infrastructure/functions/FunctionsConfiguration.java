@@ -6,7 +6,10 @@ import java.util.function.Supplier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Configuration
+@Slf4j
 public class FunctionsConfiguration {
 
 	@Bean
@@ -18,8 +21,9 @@ public class FunctionsConfiguration {
 	
 	@Bean
 	public Function<String, String> doSomething2(){
-		return (c) -> {
-			return c + c;
+		return c -> {
+			log.info("function:" + c);
+			return c;
 		};
 	}
 }

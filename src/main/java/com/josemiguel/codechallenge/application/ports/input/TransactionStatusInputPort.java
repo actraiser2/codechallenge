@@ -55,8 +55,8 @@ public class TransactionStatusInputPort implements TransactionStatusUseCase {
 			if (channel != null && (channel == Channel.CLIENT || channel == Channel.ATM) && 
 					transaction.get().getDate().toLocalDate().isBefore(LocalDate.now())) {
 				status = TransactionStatus.SETTLED;
-				BigDecimal newAmount = transaction.get().getAmount().subtract(transaction.get().getFee());
-				transaction.get().setAmount(newAmount);
+				Double newAmount = transaction.get().getAmount() - transaction.get().getFee().doubleValue();
+				transaction.get().setAmount(newAmount.doubleValue());
 				transaction.get().setFee(null);
 			}
 			
@@ -81,8 +81,8 @@ public class TransactionStatusInputPort implements TransactionStatusUseCase {
 			else if (channel != null && (channel == Channel.CLIENT || channel == Channel.ATM) && 
 					transaction.get().getDate().toLocalDate().isEqual(LocalDate.now())) {
 				status = TransactionStatus.PENDING;
-				BigDecimal newAmount = transaction.get().getAmount().subtract(transaction.get().getFee());
-				transaction.get().setAmount(newAmount);
+				Double newAmount = transaction.get().getAmount() - transaction.get().getFee().doubleValue();
+				transaction.get().setAmount(newAmount.doubleValue());
 				transaction.get().setFee(null);
 			}
 			
@@ -106,7 +106,7 @@ public class TransactionStatusInputPort implements TransactionStatusUseCase {
 			else if (channel != null && channel == Channel.CLIENT && 
 					transaction.get().getDate().toLocalDate().isAfter(LocalDate.now())) {
 				status = TransactionStatus.FUTURE;
-				BigDecimal newAmount = transaction.get().getAmount().subtract(transaction.get().getFee());
+				Double newAmount = transaction.get().getAmount() - transaction.get().getFee().doubleValue();
 				transaction.get().setAmount(newAmount);
 				transaction.get().setFee(null);
 			}
@@ -119,7 +119,7 @@ public class TransactionStatusInputPort implements TransactionStatusUseCase {
 			else if (channel != null && channel == Channel.ATM && 
 					transaction.get().getDate().toLocalDate().isAfter(LocalDate.now())) {
 				status = TransactionStatus.PENDING;
-				BigDecimal newAmount = transaction.get().getAmount().subtract(transaction.get().getFee());
+				Double newAmount = transaction.get().getAmount() - transaction.get().getFee().doubleValue();
 				transaction.get().setAmount(newAmount);
 				transaction.get().setFee(null);
 			}

@@ -18,7 +18,7 @@ public class CodeChallengeRoute extends RouteBuilder {
 	@Override
 	public void configure() throws Exception {
 		// TODO Auto-generated method stub
-		from("sftp:localhost:2222/input?username=jmbesada&password=RAW(fenix000)&useUserKnownHostsFile=false&delete=true").
+		from("sftp:localhost:22222/input?username=jmbesada&password=RAW(fenix000)&useUserKnownHostsFile=false&delete=true").
 		filter(m -> m.getIn().getBody(String.class).contains("Hello")).
 		bean(trasformMessage).
 		log("File passed: ${header['CamelFileName']}").

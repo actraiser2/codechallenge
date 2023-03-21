@@ -34,7 +34,7 @@ public class Transaction {
 	private LocalDateTime date;
 	
 	@Column(name = "AMOUNT")
-	private BigDecimal amount;
+	private Double amount;
 	
 	@Column(name = "FEE")
 	private BigDecimal fee;

@@ -150,6 +150,7 @@
 		     <artifactId>spring-boot-starter-batch</artifactId>
 		</dependency>
 		
+		
 		<dependency>
     		<groupId>org.testcontainers</groupId>
     		<artifactId>postgresql</artifactId>
@@ -182,6 +183,10 @@
 						<publish>true</publish>
 						<name>${env.REGISTRY}/${env.IMAGE}:${project.version}</name>
 					</image>
+					
+					<arguments>
+						<argument>2</argument>
+					</arguments>
 				</configuration>
 			</plugin>
 		</plugins>
