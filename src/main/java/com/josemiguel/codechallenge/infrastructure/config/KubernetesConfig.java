@@ -20,8 +20,7 @@ import io.dekorate.kubernetes.config.DeploymentStrategy;
 	envVars = @Env(configmap = "codechallenge-config", name = "codechallenge-env"),
 	ports = @Port(containerPort = 8080,name = "http", hostPort = 8081 ),
 	version="v1",
-	deploymentStrategy = DeploymentStrategy.RollingUpdate,
-	rollingUpdate = @RollingUpdate(maxSurge = "1", maxUnavailable = "1")
+	deploymentStrategy = DeploymentStrategy.RollingUpdate
 	)
 
 @DockerBuild(registry="ghcr.io", group = "actraiser2")
