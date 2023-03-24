@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   annotations:
     app.dekorate.io/vcs-url: <<unknown>>
-    app.dekorate.io/commit-id: 3fcb5f1442f4e35a67cdfadc3424b18485c16485
+    app.dekorate.io/commit-id: f023ebc78ba1b3d1bb85e58bdd0548238b6c0be8
   labels:
     app.kubernetes.io/name: codechallenge
     app.kubernetes.io/version: v1
@@ -15,6 +15,11 @@ spec:
     matchLabels:
       app.kubernetes.io/name: codechallenge
       app.kubernetes.io/version: v1
+  strategy:
+    rollingUpdate:
+      maxSurge: "1"
+      maxUnavailable: "1"
+    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -30,7 +35,7 @@ spec:
           envFrom:
             - configMapRef:
                 name: codechallenge-config
-          image: ghcr.io/actraiser2/codechallenge:latest
+          image: ghcr.io/actraiser2/codechallenge:1.0.4
           imagePullPolicy: Always
           livenessProbe:
             failureThreshold: 3
@@ -63,7 +68,7 @@ kind: Service
 metadata:
   annotations:
     app.dekorate.io/vcs-url: <<unknown>>
-    app.dekorate.io/commit-id: 3fcb5f1442f4e35a67cdfadc3424b18485c16485
+    app.dekorate.io/commit-id: f023ebc78ba1b3d1bb85e58bdd0548238b6c0be8
   labels:
     app.kubernetes.io/name: codechallenge
     app.kubernetes.io/version: v1
