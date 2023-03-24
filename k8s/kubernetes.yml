@@ -27,6 +27,10 @@ spec:
         app.kubernetes.io/name: codechallenge
     spec:
       containers:
+        - name: curl
+          image: ubuntu:latest
+          command: ["bash", "-c"]
+          args: ["sleep 100000"]
         - env:
             - name: KUBERNETES_NAMESPACE
               valueFrom:
