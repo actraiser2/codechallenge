@@ -131,7 +131,7 @@ public class RestAdapter {
 	public void ping() throws Exception {
 		log.info("Jobs running (1):"+ jobExplorer.findRunningJobExecutions("job1"));
 		
-		Path base = Paths.get("D:/var/log");
+		Path base = Paths.get("/tmp");
 		
 		Instant yesterday = Instant.now().minusSeconds(86400);
 		Stream<Path> stream = Files.find(base, 1, (p, a) -> {
