@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -66,6 +67,8 @@ public class RestAdapter {
 	@Qualifier("Job1")
 	private Job job1;
 	private JobExplorer jobExplorer;
+	
+	private static Map<String, String> ipsMap = new HashMap<>();
 	
 	@PostMapping("/accounts")
 	@Operation(description = "This method allows you to insert a new account")
@@ -160,7 +163,10 @@ public class RestAdapter {
 	
 	@GetMapping("/ip")
 	public String ip(HttpServletRequest request) {
-		return request.getLocalAddr();
+		
+		return ipsMap.computeIfAbsent(request.getLocalAddr(), 
+				ip -> request.getLocalAddr() + " => " + request.getRemoteAddr());
+
 	}
 	
 }
