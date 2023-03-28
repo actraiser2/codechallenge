@@ -160,7 +160,6 @@ public class RestAdapter {
 	
 	@GetMapping("/ip")
 	public String ip(HttpServletRequest request) {
-		return request.getRemoteAddr();
-	}
+		return request.getLocalAddr();
 	
 }
