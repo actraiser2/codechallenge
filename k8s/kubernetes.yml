@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   annotations:
     app.dekorate.io/vcs-url: <<unknown>>
-    app.dekorate.io/commit-id: adfe2511dbadfb3a743572f030cfd71cb45fdc59
+    app.dekorate.io/commit-id: 1618f04abf8c77a5661ec37702a1ddc70dc12afb
   labels:
     app.kubernetes.io/version: v1
     app.kubernetes.io/name: codechallenge
@@ -15,11 +15,6 @@ spec:
     matchLabels:
       app.kubernetes.io/version: v1
       app.kubernetes.io/name: codechallenge
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -27,10 +22,14 @@ spec:
         app.kubernetes.io/name: codechallenge
     spec:
       containers:
-        - name: curl
+        - args:
+            - apt-get update; apt-get install -y curl; sleep 1000000
+          command:
+            - bash
+            - -c
           image: ubuntu:latest
-          command: ["bash", "-c"]
-          args: ["sleep 100000"]
+          imagePullPolicy: Always
+          name: curl
         - env:
             - name: KUBERNETES_NAMESPACE
               valueFrom:
@@ -66,13 +65,38 @@ spec:
             periodSeconds: 30
             successThreshold: 1
             timeoutSeconds: 10
+          volumeMounts:
+            - mountPath: /git
+              name: git-config
+              readOnly: false
+              subPath: ""
+      initContainers:
+        - args:
+            - cd /git; git clone https://github.com/actraiser2/codechallenge.git
+          command:
+            - bash
+            - -c
+          envFrom:
+            - configMapRef:
+                name: codechallenge-config
+          image: bitnami/git
+          imagePullPolicy: Always
+          name: git
+          volumeMounts:
+            - mountPath: /git
+              name: git-config
+              readOnly: false
+              subPath: ""
+      volumes:
+        - emptyDir: {}
+          name: git-config
 ---
 apiVersion: v1
 kind: Service
 metadata:
   annotations:
     app.dekorate.io/vcs-url: <<unknown>>
-    app.dekorate.io/commit-id: adfe2511dbadfb3a743572f030cfd71cb45fdc59
+    app.dekorate.io/commit-id: 1618f04abf8c77a5661ec37702a1ddc70dc12afb
   labels:
     app.kubernetes.io/name: codechallenge
     app.kubernetes.io/version: v1
@@ -80,7 +104,7 @@ metadata:
 spec:
   ports:
     - name: http
-      port: 8081
+      port: 80
       protocol: TCP
       targetPort: 8080
   selector:

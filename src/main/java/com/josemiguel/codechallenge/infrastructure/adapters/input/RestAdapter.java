@@ -1,6 +1,7 @@
 package com.josemiguel.codechallenge.infrastructure.adapters.input;
 
 import java.math.BigDecimal;
+import java.net.Inet4Address;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,6 +13,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.camel.ProducerTemplate;
@@ -25,6 +27,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -153,6 +156,11 @@ public class RestAdapter {
 			});
 		
 		log.info("Jobs running (2):"+ jobExplorer.findRunningJobExecutions("job1"));
+	}
+	
+	@GetMapping("/ip")
+	public String ip(HttpServletRequest request) {
+		return request.getRemoteAddr();
 	}
 	
 }
