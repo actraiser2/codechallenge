@@ -10,7 +10,11 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -162,11 +166,33 @@ public class RestAdapter {
 	}
 	
 	@GetMapping("/ip")
-	public String ip(HttpServletRequest request) {
+	public CompletionStage<String> ip(HttpServletRequest request) {
+		log.info("Defining the CompletableFuture");
 		
-		return ipsMap.computeIfAbsent(request.getLocalAddr(), 
-				ip -> request.getLocalAddr() + " => " + request.getRemoteAddr());
+		Function<Void, String> fn1 = unused -> "hello";
+		Function<String, Void> fn2 = value -> null;
+		
+		return CompletableFuture.supplyAsync(() -> {
+			log.info("Completing the CompletableFuture(1)");
+			if (new Random().nextBoolean()) {
+				return ipsMap.compute(request.getLocalAddr(), 
+						(k, v) -> v == null ? request.getLocalAddr() : request.getLocalAddr().concat("Repeated"));
+			}
+			else {
+				throw new RuntimeException("Error in the completable");
+			}
+		}).
+			
+		thenCombine(CompletableFuture.completedStage("Done"), (r1, r2) -> {
+			return r1 + "=>" + r2;
+		}).
+		exceptionally(ex -> {
+			log.error("Error:", ex.getMessage());
+			return ex.getMessage();
+		});
+		
 
+		
 	}
 	
 }
