@@ -30,7 +30,7 @@ public class TestContainers {
 
 	@Test
 	public void testSomethingWithTestContainers() throws IOException {
-		Assertions.assertTrue(true, () -> "true == true");
+		
 		var t1 = TransactionDTO.builder().amount(10d).
 				date(LocalDateTime.now()).
 				fee(new BigDecimal(3)).reference("1").build();
@@ -43,6 +43,7 @@ public class TestContainers {
 				date(LocalDateTime.now()).
 				fee(new BigDecimal(3)).reference("2").build();
 		
+		Assertions.assertTrue(t1 == t2);
 	
 	}
 }
