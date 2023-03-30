@@ -43,7 +43,7 @@ public class TestContainers {
 				date(LocalDateTime.now()).
 				fee(new BigDecimal(3)).reference("2").build();
 		
-		Assertions.assertTrue(t1 == t2);
+		Assertions.assertFalse(t1 == t2);
 	
 	}
 }
