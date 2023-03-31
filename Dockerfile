@@ -9,5 +9,5 @@ COPY --from=build /src/target/*.jar /app/codechallenge.jar
 
 EXPOSE 8080
 WORKDIR /app
-ENTRYPOINT ["java", "-jar", ."codechallenge.jar"]
+ENTRYPOINT ["java", "-jar", "codechallenge.jar"]
 
