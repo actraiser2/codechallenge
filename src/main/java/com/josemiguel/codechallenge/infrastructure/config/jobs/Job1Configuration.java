@@ -59,7 +59,7 @@ public class Job1Configuration {
 			
 			//log.info("Job1 - Step1 !!!!!!!!:" + chunkContext.getStepContext().getJobParameters());
 			String timestamp = chunkContext.getStepContext().
-					getJobParameters().get("timestamp") + "";
+					getJobParameters().get("timestamp") + "-";
 		
 			var command = CreateAccountCommand.builder().accountName("Josemi - " + timestamp).iban("ES00000001").build();
 			accountRepository.save(new Account(command));
