@@ -1,7 +1,6 @@
 package com.josemiguel.codechallenge.infrastructure.adapters.input;
 
 import java.math.BigDecimal;
-import java.net.Inet4Address;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -32,7 +31,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -54,7 +52,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping(value = "/api/v7", consumes = "application/json", produces = "application/json")
+@RequestMapping(value = "/api/v8", consumes = "application/json", produces = "application/json")
 @AllArgsConstructor
 @Tag(name = "Services available for the project code challenge")
 @Slf4j
