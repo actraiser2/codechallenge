@@ -165,7 +165,7 @@ public class RestAdapter {
 	
 	@GetMapping("/ip")
 	public CompletionStage<String> ip(HttpServletRequest request) {
-		log.info("Defining the CompletableFuture");
+		log.info("Defining the CompletableFuture2");
 		
 		Function<Void, String> fn1 = unused -> "hello";
 		Function<String, Void> fn2 = value -> null;
