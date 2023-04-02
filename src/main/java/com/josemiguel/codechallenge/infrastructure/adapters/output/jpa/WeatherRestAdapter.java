@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import com.josemiguel.codechallenge.application.ports.input.WeatherProxy;
 import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.Weather;
+import com.josemiguel.codechallenge.infrastructure.config.properties.WeatherConfigProperties;
 import com.josemiguel.codechallenge.infrastructure.errors.exceptions.WeatherException;
 
 import lombok.AllArgsConstructor;
@@ -14,7 +15,7 @@ import static io.restassured.RestAssured.*;
 @AllArgsConstructor
 public class WeatherRestAdapter implements WeatherProxy {
 
-	private Environment env;
+	private WeatherConfigProperties weatherConfigProps;
 	
 	@Override
 	public Weather getWeather(String city) throws WeatherException {
@@ -22,11 +23,11 @@ public class WeatherRestAdapter implements WeatherProxy {
 		try {
 			return given().
 				param("q", city).
-				param("appid", env.getProperty("weather.apiKey")).
+				param("appid", weatherConfigProps.getApiKey()).
 				param("units", "metric").
 				log().all().
 			when().
-				get(env.getProperty("weather.url") + "/data/2.5/weather").
+				get(weatherConfigProps.getUrl() + "/data/2.5/weather").
 			then().
 				log().all().
 			extract().
