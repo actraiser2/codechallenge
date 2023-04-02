@@ -6,4 +6,6 @@ import com.josemiguel.codechallenge.infrastructure.errors.exceptions.WeatherExce
 public interface WeatherProxy {
 
 	public Weather getWeather(String city) throws WeatherException;
+	
+	public Weather getWeather(Double lat, Double lon) throws WeatherException;
 }
