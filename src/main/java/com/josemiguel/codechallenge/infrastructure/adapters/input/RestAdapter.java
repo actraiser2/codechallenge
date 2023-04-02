@@ -165,8 +165,25 @@ public class RestAdapter {
 		log.info("Jobs running (2):"+ jobExplorer.findRunningJobExecutions("job1"));
 	}
 	
+	@GetMapping(value = "/weather", consumes = "*/*")
+	public CompletionStage<Weather> weatherByCity(@RequestParam("lat")  Double lat, 
+			@RequestParam("lon") Double lon)  {
+		
+		return CompletableFuture.supplyAsync(() -> {
+			log.info("Getting weather lat " + lat + " lon " + lon);
+			var weather = weatherProxy.getWeather(lat, lon);
+			weather.setCod(0);
+			return weather;
+		}).
+		exceptionally(ex -> {
+			log.error("Error:", ex);
+			return Weather.builder().cod(1).errorMessage(ex.getMessage()).build();
+		});
+		
+	}
+	
 	@GetMapping(value = "/weather/{city}", consumes = "*/*")
-	public CompletionStage<Weather> weather(@PathVariable("city") String city)  {
+	public CompletionStage<Weather> weatherByCoordinates(@PathVariable("city") String city)  {
 		Function<Weather, Weather> identity = Function.identity();
 		return CompletableFuture.supplyAsync(() -> {
 			log.info("Getting weather from " + city);
@@ -175,9 +192,11 @@ public class RestAdapter {
 			return weather;
 		}).
 		exceptionally(ex -> {
+			log.error("Error:", ex);
 			return Weather.builder().cod(1).errorMessage(ex.getMessage()).build();
 		});
 		
 	}
+	
 	
 }

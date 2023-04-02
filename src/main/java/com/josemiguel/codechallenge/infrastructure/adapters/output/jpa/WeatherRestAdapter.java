@@ -1,7 +1,10 @@
 package com.josemiguel.codechallenge.infrastructure.adapters.output.jpa;
 
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import com.josemiguel.codechallenge.application.ports.input.WeatherProxy;
 import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.Weather;
@@ -38,5 +41,25 @@ public class WeatherRestAdapter implements WeatherProxy {
 		}
 		
 	}
+
+	@Override
+	public Weather getWeather(Double lat, Double lon) throws WeatherException {
+		// TODO Auto-generated method stub
+		var restTemplate = new RestTemplate();
+		
+		var response = restTemplate.exchange(weatherConfigProps.getUrl() + 
+				"/data/2.5/weather?appid={appid}&lat={lat}&lon={lon}&units=metric",
+				HttpMethod.GET, null, Weather.class, 
+				weatherConfigProps.getApiKey(), lat, lon);
+		
+		if (response.getStatusCode() == HttpStatus.OK) {
+			return response.getBody();
+		}
+		else {
+			throw new WeatherException(response.toString());
+		}
+	}
+	
+	
 
 }
