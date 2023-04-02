@@ -33,5 +33,7 @@ management:
         readiness:
           include: codeChallenge, readinessState
         
-
+weather:
+  url: https://api.openweathermap.org
+  apiKey: 22073e0662677fdf6684f86fb4d470bf
       

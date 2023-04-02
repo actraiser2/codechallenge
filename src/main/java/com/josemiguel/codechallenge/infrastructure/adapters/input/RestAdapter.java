@@ -9,7 +9,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -17,7 +16,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.camel.ProducerTemplate;
@@ -29,12 +27,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.josemiguel.codechallenge.application.ports.input.WeatherProxy;
 import com.josemiguel.codechallenge.application.usecases.CreateAccountUseCase;
 import com.josemiguel.codechallenge.application.usecases.CreateTransactionUseCase;
 import com.josemiguel.codechallenge.application.usecases.SearchTransactionsUseCase;
@@ -43,6 +43,7 @@ import com.josemiguel.codechallenge.domain.commands.CreateAccountCommand;
 import com.josemiguel.codechallenge.domain.commands.CreateTransactionCommand;
 import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.TransactionDTO;
 import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.TransactionStatusRequestDTO;
+import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.Weather;
 
 import io.micrometer.core.annotation.Counted;
 import io.micrometer.core.instrument.MeterRegistry;
@@ -52,7 +53,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping(value = "/api/v8", consumes = "application/json", produces = "application/json")
+@RequestMapping(value = "/api/v1", consumes = "application/json", produces = "application/json")
 @AllArgsConstructor
 @Tag(name = "Services available for the project code challenge")
 @Slf4j
@@ -69,6 +70,7 @@ public class RestAdapter {
 	@Qualifier("Job1")
 	private Job job1;
 	private JobExplorer jobExplorer;
+	private WeatherProxy weatherProxy;
 	
 	private static Map<String, String> ipsMap = new HashMap<>();
 	
@@ -163,33 +165,18 @@ public class RestAdapter {
 		log.info("Jobs running (2):"+ jobExplorer.findRunningJobExecutions("job1"));
 	}
 	
-	@GetMapping("/ip")
-	public CompletionStage<String> ip(HttpServletRequest request) {
-		log.info("Defining the CompletableFuture2");
-		
-		Function<Void, String> fn1 = unused -> "hello";
-		Function<String, Void> fn2 = value -> null;
-		
+	@GetMapping(value = "/weather/{city}", consumes = "*/*")
+	public CompletionStage<Weather> weather(@PathVariable("city") String city)  {
+		Function<Weather, Weather> identity = Function.identity();
 		return CompletableFuture.supplyAsync(() -> {
-			log.info("Completing the CompletableFuture(1)");
-			if (new Random().nextBoolean()) {
-				return ipsMap.compute(request.getLocalAddr(), 
-						(k, v) -> v == null ? request.getLocalAddr() : request.getLocalAddr().concat("Repeated"));
-			}
-			else {
-				throw new RuntimeException("Error in the completable");
-			}
-		}).
-			
-		thenCombine(CompletableFuture.completedStage("Done"), (r1, r2) -> {
-			return r1 + "=>" + r2;
+			log.info("Getting weather from " + city);
+			var weather = weatherProxy.getWeather(city);
+			weather.setCod(0);
+			return weather;
 		}).
 		exceptionally(ex -> {
-			log.error("Error:", ex.getMessage());
-			return ex.getMessage();
+			return Weather.builder().cod(1).errorMessage(ex.getMessage()).build();
 		});
-		
-
 		
 	}
 	
