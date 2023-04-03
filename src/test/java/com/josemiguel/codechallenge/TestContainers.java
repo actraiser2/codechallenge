@@ -23,6 +23,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.StopWatch;
 
 import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.TransactionDTO;
+import com.josemiguel.codechallenge.infrastructure.errors.dto.ErrorDTO;
 
 /*@SpringBootTest(properties = {"spring.datasource.url=jdbc:tc:postgresql:14.7://localhost:5432/codechallenge", 
 		"spring.batch.jdbc.initialize-schema=never"})*/
@@ -42,6 +43,8 @@ public class TestContainers {
 		var t3 = TransactionDTO.builder().amount(30d).
 				date(LocalDateTime.now()).
 				fee(new BigDecimal(3)).reference("2").build();
+		
+		System.out.println(ErrorDTO.builder().description("josemi").build().doubleDescription());
 		
 		Assertions.assertFalse(t1 == t2);
 	

@@ -19,29 +19,26 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(NotFoundAccoundExeption.class)
 	public ResponseEntity<ErrorDTO> handleNotFoundAccoundExeption(NotFoundAccoundExeption ex) {
-		var error = new ErrorDTO();
-		error.setDescription(ex.getMessage());
+		var error = ErrorDTO.builder().description(ex.getMessage()).build();
+
 		return ResponseEntity.ok().body(error);
 	}
 	
 	@ExceptionHandler(ExistingTransactionException.class)
 	public ResponseEntity<ErrorDTO> handleExistingTransactionException(ExistingTransactionException ex) {
-		var error = new ErrorDTO();
-		error.setDescription(ex.getMessage());
+		var error = new ErrorDTO(ex.getMessage());
 		return ResponseEntity.ok().body(error);
 	}
 	
 	@ExceptionHandler(AccountBalanceBelowZeroException.class)
 	public ResponseEntity<ErrorDTO> handleAccountBalanceBelowZeroException(AccountBalanceBelowZeroException ex) {
-		var error = new ErrorDTO();
-		error.setDescription(ex.getMessage());
+		var error = new ErrorDTO(ex.getMessage());
 		return ResponseEntity.ok().body(error);
 	}
 	
 	@ExceptionHandler(NotSupportedBusinesFlowException.class)
 	public ResponseEntity<ErrorDTO> handleNotSupportedBusinesFlowException(NotSupportedBusinesFlowException ex) {
-		var error = new ErrorDTO();
-		error.setDescription(ex.getMessage());
+		var error = new ErrorDTO(ex.getMessage());
 		return ResponseEntity.ok().body(error);
 	}
 }

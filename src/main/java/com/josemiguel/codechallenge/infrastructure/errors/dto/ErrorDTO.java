@@ -1,10 +1,21 @@
 package com.josemiguel.codechallenge.infrastructure.errors.dto;
 
-import lombok.Data;
+import javax.validation.constraints.NotEmpty;
 
-@Data
-public class ErrorDTO {
+import org.apache.commons.lang3.StringUtils;
 
-	private String description;
+import lombok.Builder;
+
+@Builder
+public record ErrorDTO(@NotEmpty String description) {
+
+	public ErrorDTO{
+		if (StringUtils.isEmpty(description)) {
+			throw new IllegalArgumentException();
+		}
+	}
+	public String doubleDescription() {
+		return this.description.concat(description);
+	}
 
 }
