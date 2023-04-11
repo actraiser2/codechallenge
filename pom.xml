@@ -213,5 +213,13 @@
    		<developerConnection>scm:git:https://github.com/actraiser2/codechallenge.git</developerConnection>
 	  <tag>HEAD</tag>
   </scm>
+  
+  <distributionManagement>
+    <repository>
+        <id>dev</id>
+        <name>Local repository</name>
+        <url>file://${user.home}/.m2/repository</url>
+    </repository>
+   </distributionManagement>
 
 </project>
