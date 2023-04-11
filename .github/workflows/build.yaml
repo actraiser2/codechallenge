@@ -26,6 +26,4 @@ jobs:
           run: mvn package
         - name: log token
           run: mvn --version
-        - name: publish
-          run: mvn spring-boot:build-image
            
