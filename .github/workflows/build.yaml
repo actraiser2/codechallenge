@@ -21,9 +21,7 @@ jobs:
               distribution: temurin 
               java-version: 17 
         - name: compile source code
-          run: mvn compile
-        - name: test & package
-          run: mvn package
-        - name: log token
-          run: mvn --version
+          run: package
+        - name: release
+          run: mvn release:prepare
            
