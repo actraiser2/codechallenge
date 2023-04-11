@@ -22,6 +22,8 @@ jobs:
               java-version: 17 
         - name: compile source code
           run: mvn package
+        - name: prepare git
+          run: git config --global user.name admin && git config --global user.email jmbesada.juez@gmail.com
         - name: mvn 
           run: mvn --batch-mode release:prepare
            
