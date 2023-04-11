@@ -1,7 +1,7 @@
 name: Build
 on: 
   push:
-    branchs: [master]
+    branchs: [development]
   workflow_dispatch:
   
 env:
