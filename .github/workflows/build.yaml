@@ -21,7 +21,7 @@ jobs:
               distribution: temurin 
               java-version: 17 
         - name: compile source code
-          run: package
-        - name: release
-          run: mvn release:prepare
+          run: mvn package
+        - name: mvn 
+          run: mvn --batch-mode release:prepare
            
