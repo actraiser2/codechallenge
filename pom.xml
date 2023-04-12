@@ -9,7 +9,7 @@
 	</parent>
 	<groupId>com.josemiguel</groupId>
 	<artifactId>codechallenge</artifactId>
-	<version>1.0.6-SNAPSHOT</version>
+	<version>1.0.6</version>
 	<name>codechallenge</name>
 	<description>Demo project</description>
 	<properties>
@@ -297,7 +297,7 @@
    		<connection>scm:git:https://github.com/actraiser2/codechallenge.git</connection>
    		<url>https://github.com/actraiser2/codechallenge</url>
    		<developerConnection>scm:git:https://github.com/actraiser2/codechallenge.git</developerConnection>
-	  <tag>HEAD</tag>
+	  <tag>codechallenge-1.0.6</tag>
   </scm>
   
   <distributionManagement>
