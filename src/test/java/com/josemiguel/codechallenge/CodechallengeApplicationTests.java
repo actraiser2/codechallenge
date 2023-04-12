@@ -25,7 +25,6 @@ import java.time.format.DateTimeFormatter;
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestInstance(Lifecycle.PER_CLASS)
-@Slf4j
 @Disabled
 class CodechallengeApplicationTests {
 
