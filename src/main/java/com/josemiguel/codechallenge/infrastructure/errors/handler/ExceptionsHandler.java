@@ -14,7 +14,6 @@ import com.josemiguel.codechallenge.infrastructure.errors.exceptions.NotSupporte
 import lombok.extern.slf4j.Slf4j;
 
 @ControllerAdvice
-@Slf4j
 public class ExceptionsHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(NotFoundAccoundExeption.class)

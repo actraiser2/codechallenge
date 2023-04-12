@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 @AllArgsConstructor
-@Slf4j
 public class CodeChallengeRoute extends RouteBuilder {
 
 	private CamelContext context;

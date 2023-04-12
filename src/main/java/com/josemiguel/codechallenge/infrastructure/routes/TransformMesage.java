@@ -8,7 +8,6 @@ import com.josemiguel.codechallenge.infrastructure.routes.dto.CodeChallengeMessa
 import lombok.extern.slf4j.Slf4j;
 
 @Component
-@Slf4j
 public class TransformMesage {
 
 	public CodeChallengeMessage truncate(String message) {

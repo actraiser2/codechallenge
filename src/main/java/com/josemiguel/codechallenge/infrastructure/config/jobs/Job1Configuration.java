@@ -31,7 +31,6 @@ import com.josemiguel.codechallenge.domain.model.aggregates.Account;
 import lombok.extern.slf4j.Slf4j;
 
 @Configuration
-@Slf4j
 public class Job1Configuration {
 
 	@Autowired JobBuilderFactory jobBuilderFactory;
