@@ -1,4 +1,4 @@
-# Instructions for running the amazing codechallenge
+# Instructions for running the amazing codechallengee
 
 Application developed according the hexagonal architecture principles and DDD methodology using
 the Spring Boot framework
