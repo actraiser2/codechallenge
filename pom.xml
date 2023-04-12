@@ -272,6 +272,7 @@
 {{/tags}}
 			         ]]>
 			         </templateContent>
+			         <ignoreCommitsIfMessageMatches>^\[maven-release-plugin\].*</ignoreCommitsIfMessageMatches>
 			        </configuration>
 			       </execution>
 			      </executions>
