@@ -12,15 +12,8 @@ public class ContextClosedEventListener implements ApplicationListener<ContextCl
 
 	@Override
 	public void onApplicationEvent(ContextClosedEvent event) {
-		log.info("Closing context....");
+		log.info("Closing context.....");
 		// TODO Auto-generated method stub
-		
-		try {
-			Thread.sleep(60000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 	}
 

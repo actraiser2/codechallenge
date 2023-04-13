@@ -9,12 +9,13 @@
 	</parent>
 	<groupId>com.josemiguel</groupId>
 	<artifactId>codechallenge</artifactId>
-	<version>1.0.10-SNAPSHOT</version>
+	<version>1.1.0-SNAPSHOT</version>
 	<name>codechallenge</name>
 	<description>Demo project</description>
 	<properties>
 		<java.version>17</java.version>
 		<spring-cloud.version>2021.0.6</spring-cloud.version>
+		<nullaway.severity>OFF</nullaway.severity>
 	</properties>
 	
 	<dependencyManagement>
@@ -222,7 +223,8 @@
 			      <encoding>UTF-8</encoding>
 			      <compilerArgs>
 			        <arg>-XDcompilePolicy=simple</arg>
-			        <arg>-Xplugin:ErrorProne</arg>
+			        <arg>-Xplugin:ErrorProne -Xep:NullAway:${nullaway.severity} -XepOpt:NullAway:AnnotatedPackages=com.josemiguel</arg>
+			       
 			      </compilerArgs>
 			      <annotationProcessorPaths>
 			        <path>
@@ -235,9 +237,20 @@
                         <groupId>org.projectlombok</groupId>
                         <artifactId>lombok</artifactId>
                         <version>1.18.26</version>
-                    </path>                         
+                    </path> 
+                    
+                     <path>
+                        <groupId>com.uber.nullaway</groupId>
+                        <artifactId>nullaway</artifactId>
+                        <version>0.10.10</version>
+                     </path>
+                                           
 			      </annotationProcessorPaths>
 			    </configuration>
+			    
+			    <dependencies>
+					
+				</dependencies>
 			  </plugin>
 			  
 			  <plugin>
@@ -288,7 +301,104 @@
 			      </executions>
 			  </plugin>
 			  
-			
+			  
+			  <plugin>
+          <groupId>com.societegenerale.commons</groupId>
+          <artifactId>arch-unit-maven-plugin</artifactId>
+          <version>3.0.0</version>
+          <dependencies>
+            <dependency>
+              <groupId>com.santalucia.arq.ams</groupId>
+              <artifactId>ams-arquitectura-check</artifactId>
+              <version>0.1.4-RELEASE</version>
+            </dependency>
+          
+          </dependencies>
+          <executions>
+            <execution>
+              <id>ams-online</id>
+	              <configuration>
+	                <skip>true</skip>
+	                <!-- https://github.com/societe-generale/arch-unit-maven-plugin#excluding-paths -->
+	                <excludedPaths>
+	                  <excludedPath>api/server</excludedPath>
+	                  <excludedPath>api/client</excludedPath>
+	                  <excludedPath>org/openapitools</excludedPath>
+	                  <excludedPath>infrastructure/mybatis/primary</excludedPath>
+	                  <excludedPath>infrastructure/mybatis/secondary</excludedPath>
+	                  <excludedPath>infrastructure/entity</excludedPath>
+	                  <excludedPath>org/bson/types</excludedPath>
+	                </excludedPaths>
+	                <rules>
+	                  <preConfiguredRules>
+	                    <rule>com.societegenerale.commons.plugin.rules.NoJunitAssertRuleTest</rule>
+	                    <rule>com.societegenerale.commons.plugin.rules.NoAutowiredFieldTest</rule>
+	                    <rule>com.societegenerale.commons.plugin.rules.NoInjectedFieldTest</rule>
+	                    <rule>com.societegenerale.commons.plugin.rules.NoJodaTimeRuleTest</rule>
+	                    <rule>com.societegenerale.commons.plugin.rules.NoPowerMockRuleTest</rule>
+	                    <rule>com.societegenerale.commons.plugin.rules.NoStandardStreamRuleTest</rule>
+	                    <rule>com.societegenerale.commons.plugin.rules.NoTestIgnoreWithoutCommentRuleTest</rule>
+	                    <rule>com.societegenerale.commons.plugin.rules.StringFieldsThatAreActuallyDatesRuleTest</rule>
+	                    <rule>com.societegenerale.commons.plugin.rules.TestClassesNamingRuleTest</rule>
+	                    <rule>com.societegenerale.commons.plugin.rules.TestMethodsNamingRuleTest</rule>
+	                  </preConfiguredRules>
+	                  <configurableRules>
+	                    <!-- Configuracion de reglas de paquete ArchUnit -->
+	                    <configurableRule>
+	                      <rule>com.tngtech.archunit.library.DependencyRules</rule>
+	                      <checks>
+	                        <check>NO_CLASSES_SHOULD_DEPEND_UPPER_PACKAGES</check>
+	                      </checks>
+	                    </configurableRule>
+	                    <configurableRule>
+	                      <rule>com.tngtech.archunit.library.GeneralCodingRules</rule>
+	                      <checks>
+	                        <check>NO_CLASSES_SHOULD_ACCESS_STANDARD_STREAMS</check>
+	                        <check>NO_CLASSES_SHOULD_THROW_GENERIC_EXCEPTIONS</check>
+	                        <check>NO_CLASSES_SHOULD_USE_JAVA_UTIL_LOGGING</check>
+	                        <check>NO_CLASSES_SHOULD_USE_JODATIME</check>
+	                      </checks>
+	                    </configurableRule>
+	                    <!-- Configuracion de reglas custom SL -->
+	                    <configurableRule>
+	                      <rule>com.santalucia.arq.ams.archunit.general.rules.coding.CodingRules</rule>
+	                      <skip>${archunit.coding.rules.skip}</skip>
+	                    </configurableRule>
+	                    <configurableRule>
+	                      <rule>com.santalucia.arq.ams.archunit.general.rules.layared.LayeredArchitectureRules</rule>
+	                      <skip>${archunit.layared.rules.skip}</skip>
+	                    </configurableRule>
+	                    <configurableRule>
+	                      <rule>com.santalucia.arq.ams.archunit.general.rules.layared.LayeredInfrastructureRules</rule>
+	                      <skip>${archunit.layared.infrastructure.rules.skip}</skip>
+	                    </configurableRule>
+	                    <configurableRule>
+	                      <rule>com.santalucia.arq.ams.archunit.general.rules.naming.NamingConventionRules</rule>
+	                      <skip>${archunit.naming.rules.skip}</skip>
+	                    </configurableRule>
+	                    <configurableRule>
+	                      <rule>com.santalucia.arq.ams.archunit.general.rules.location.LocationRules</rule>
+	                      <skip>${archunit.location.rules.skip}</skip>
+	                    </configurableRule>
+	                    <configurableRule>
+	                      <rule>com.santalucia.arq.ams.archunit.general.rules.testing.TestingRules</rule>
+	                      <skip>${archunit.testing.rules.skip}</skip>
+	                      <applyOn>
+	                        <scope>test</scope>
+	                        <!-- scope can be "main" or "test" -->
+	                      </applyOn>
+	                    </configurableRule>
+	                  </configurableRules>
+	                </rules>
+	              </configuration>
+              		<phase>test</phase>
+					<goals>
+						<goal>arch-test</goal>
+					</goals>
+            </execution>
+			  
+			</executions>
+			</plugin>
 			
 		</plugins>
 	</build>

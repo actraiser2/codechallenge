@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.josemiguel.codechallenge.domain.commands.CreateAccountCommand;
@@ -17,6 +18,8 @@ import com.josemiguel.codechallenge.domain.commands.CreateTransactionCommand;
 import com.josemiguel.codechallenge.domain.model.entities.Transaction;
 import com.josemiguel.codechallenge.infrastructure.errors.exceptions.AccountBalanceBelowZeroException;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,11 +29,14 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 @NoArgsConstructor
 @Slf4j
+@AllArgsConstructor
+@Builder
 public class Account {
 
 	@Id
 	@GeneratedValue
 	@Column(name = "ACCOUNT_ID")
+	@Nullable
 	private Long accountId;
 	
 	@Column(name = "BALANCE")
@@ -44,6 +50,7 @@ public class Account {
 	
 	@Column(name = "CREATION_DATE")
 	@CreationTimestamp
+	@Nullable
 	private LocalDateTime timestamp;
 	
 	public Account(CreateAccountCommand command) {
@@ -66,13 +73,13 @@ public class Account {
 			//The transaction is valid
 			this.balance = balance.add(netAmount);
 			
-			var transaction = new Transaction();
-			transaction.setAccount(this);
-			transaction.setAmount(command.getAmount().doubleValue());
-			transaction.setFee(command.getFee());
-			transaction.setDate(command.getOperationDate());
-			transaction.setReference(command.getReference() != null ? command.getReference() : UUID.randomUUID().toString());
-			transaction.setDescription(command.getDescription());
+			var transaction = Transaction.builder().
+			account(this).
+			amount(command.getAmount().doubleValue()).
+			fee(command.getFee()).
+			date(command.getOperationDate()).
+			reference(command.getReference() != null ? command.getReference() : UUID.randomUUID().toString()).
+			description(command.getDescription()).build();
 			
 			return transaction;
 		}

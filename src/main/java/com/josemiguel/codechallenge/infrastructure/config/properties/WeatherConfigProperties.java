@@ -2,10 +2,14 @@ package com.josemiguel.codechallenge.infrastructure.config.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @ConfigurationProperties(prefix = "weather")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class WeatherConfigProperties {
 
 	

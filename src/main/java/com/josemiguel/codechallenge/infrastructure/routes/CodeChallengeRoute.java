@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Component
+//@Component
 @AllArgsConstructor
 public class CodeChallengeRoute extends RouteBuilder {
 

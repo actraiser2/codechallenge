@@ -1,5 +1,6 @@
 package com.josemiguel.codechallenge.infrastructure.adapters.output.jpa;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -37,7 +38,8 @@ public class WeatherRestAdapter implements WeatherProxy {
 				as(Weather.class);
 		}
 		catch(Exception ex) {
-			throw new WeatherException(ex.getMessage());
+			throw new WeatherException(StringUtils.isNotEmpty(ex.getMessage()) ? 
+					ex.getMessage() : "");
 		}
 		
 	}

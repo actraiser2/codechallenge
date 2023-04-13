@@ -1,5 +1,7 @@
 package com.josemiguel.codechallenge.infrastructure.adapters.input.dto;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
@@ -20,5 +22,6 @@ public class Weather {
 	
 	private MainWeather main;
 	private Integer responseCode;
+	@Nullable
 	private String errorMessage;
 }

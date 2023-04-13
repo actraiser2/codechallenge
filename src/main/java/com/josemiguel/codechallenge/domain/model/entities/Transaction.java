@@ -16,11 +16,17 @@ import javax.persistence.Transient;
 import com.josemiguel.codechallenge.domain.model.aggregates.Account;
 import com.josemiguel.codechallenge.domain.model.valueobjects.TransactionStatus;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "TB_TRANSACTIONS")
 @Data
+@AllArgsConstructor
+@Builder
+@NoArgsConstructor
 public class Transaction {
 
 	@Id

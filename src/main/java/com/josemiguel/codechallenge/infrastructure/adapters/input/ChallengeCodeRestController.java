@@ -44,6 +44,7 @@ import com.josemiguel.codechallenge.domain.commands.CreateTransactionCommand;
 import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.TransactionDTO;
 import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.TransactionStatusRequestDTO;
 import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.Weather;
+import com.josemiguel.codechallenge.infrastructure.config.properties.WeatherConfigProperties;
 
 import io.micrometer.core.annotation.Counted;
 import io.micrometer.core.instrument.MeterRegistry;
@@ -57,7 +58,7 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 @Tag(name = "Services available for the project code challenge")
 @Slf4j
-public class RestAdapter {
+public class ChallengeCodeRestController {
 
 	private CreateAccountUseCase createAccountUseCase;
 	private CreateTransactionUseCase createTransactionUseCase;
@@ -71,6 +72,7 @@ public class RestAdapter {
 	private Job job1;
 	private JobExplorer jobExplorer;
 	private WeatherProxy weatherProxy;
+	private WeatherConfigProperties weatherConfigProperties;
 	
 	private static Map<String, String> ipsMap = new HashMap<>();
 	
@@ -137,33 +139,6 @@ public class RestAdapter {
 		
 	}
 	
-	@GetMapping("/ping")
-	public void ping() throws Exception {
-		log.info("Jobs running (1):"+ jobExplorer.findRunningJobExecutions("job1"));
-		
-		Path base = Paths.get("/tmp");
-		
-		Instant yesterday = Instant.now().minusSeconds(86400);
-		Stream<Path> stream = Files.find(base, 1, (p, a) -> {
-			return a.isRegularFile() && a.lastModifiedTime().toInstant().isAfter(yesterday);
-		}).sorted(Comparator.reverseOrder());
-		
-		stream.
-			filter(f -> f.toString().contains(".log")).
-			forEach(f -> {
-				try {
-					jobLauncher.run(job1, new JobParametersBuilder().
-							addDate("timestamp", new Date()).
-							addString("filePath", f.toString()).
-							toJobParameters());
-				}
-				catch(Exception ex) {
-					log.error("Error:", ex);
-				}
-			});
-		
-		log.info("Jobs running (2):"+ jobExplorer.findRunningJobExecutions("job1"));
-	}
 	
 	@GetMapping(value = "/weather", consumes = "*/*")
 	public CompletionStage<Weather> weatherByCity(@RequestParam("lat")  Double lat, 
@@ -198,5 +173,9 @@ public class RestAdapter {
 		
 	}
 	
+	@GetMapping(value = "/ping", consumes = "*/*")
+	public String ping() {
+		return weatherConfigProperties.getApiKey();
+	}
 	
 }
