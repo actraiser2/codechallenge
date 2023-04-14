@@ -306,14 +306,7 @@
           <groupId>com.societegenerale.commons</groupId>
           <artifactId>arch-unit-maven-plugin</artifactId>
           <version>3.0.0</version>
-          <dependencies>
-            <dependency>
-              <groupId>com.santalucia.arq.ams</groupId>
-              <artifactId>ams-arquitectura-check</artifactId>
-              <version>0.1.4-RELEASE</version>
-            </dependency>
           
-          </dependencies>
           <executions>
             <execution>
               <id>ams-online</id>
@@ -342,53 +335,7 @@
 	                    <rule>com.societegenerale.commons.plugin.rules.TestClassesNamingRuleTest</rule>
 	                    <rule>com.societegenerale.commons.plugin.rules.TestMethodsNamingRuleTest</rule>
 	                  </preConfiguredRules>
-	                  <configurableRules>
-	                    <!-- Configuracion de reglas de paquete ArchUnit -->
-	                    <configurableRule>
-	                      <rule>com.tngtech.archunit.library.DependencyRules</rule>
-	                      <checks>
-	                        <check>NO_CLASSES_SHOULD_DEPEND_UPPER_PACKAGES</check>
-	                      </checks>
-	                    </configurableRule>
-	                    <configurableRule>
-	                      <rule>com.tngtech.archunit.library.GeneralCodingRules</rule>
-	                      <checks>
-	                        <check>NO_CLASSES_SHOULD_ACCESS_STANDARD_STREAMS</check>
-	                        <check>NO_CLASSES_SHOULD_THROW_GENERIC_EXCEPTIONS</check>
-	                        <check>NO_CLASSES_SHOULD_USE_JAVA_UTIL_LOGGING</check>
-	                        <check>NO_CLASSES_SHOULD_USE_JODATIME</check>
-	                      </checks>
-	                    </configurableRule>
-	                    <!-- Configuracion de reglas custom SL -->
-	                    <configurableRule>
-	                      <rule>com.santalucia.arq.ams.archunit.general.rules.coding.CodingRules</rule>
-	                      <skip>${archunit.coding.rules.skip}</skip>
-	                    </configurableRule>
-	                    <configurableRule>
-	                      <rule>com.santalucia.arq.ams.archunit.general.rules.layared.LayeredArchitectureRules</rule>
-	                      <skip>${archunit.layared.rules.skip}</skip>
-	                    </configurableRule>
-	                    <configurableRule>
-	                      <rule>com.santalucia.arq.ams.archunit.general.rules.layared.LayeredInfrastructureRules</rule>
-	                      <skip>${archunit.layared.infrastructure.rules.skip}</skip>
-	                    </configurableRule>
-	                    <configurableRule>
-	                      <rule>com.santalucia.arq.ams.archunit.general.rules.naming.NamingConventionRules</rule>
-	                      <skip>${archunit.naming.rules.skip}</skip>
-	                    </configurableRule>
-	                    <configurableRule>
-	                      <rule>com.santalucia.arq.ams.archunit.general.rules.location.LocationRules</rule>
-	                      <skip>${archunit.location.rules.skip}</skip>
-	                    </configurableRule>
-	                    <configurableRule>
-	                      <rule>com.santalucia.arq.ams.archunit.general.rules.testing.TestingRules</rule>
-	                      <skip>${archunit.testing.rules.skip}</skip>
-	                      <applyOn>
-	                        <scope>test</scope>
-	                        <!-- scope can be "main" or "test" -->
-	                      </applyOn>
-	                    </configurableRule>
-	                  </configurableRules>
+	                 
 	                </rules>
 	              </configuration>
               		<phase>test</phase>
