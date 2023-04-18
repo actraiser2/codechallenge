@@ -2,6 +2,7 @@ package com.josemiguel.codechallenge.application.ports.input;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -53,7 +54,7 @@ public class TransactionStatusInputPort implements TransactionStatusUseCase {
 			And the amount substracting the fee*/
 			
 			if (channel != null && (channel == Channel.CLIENT || channel == Channel.ATM) && 
-					transaction.get().getDate().toLocalDate().isBefore(LocalDate.now())) {
+					transaction.get().getDate().isBefore(ZonedDateTime.now())) {
 				status = TransactionStatus.SETTLED;
 				Double newAmount = transaction.get().getAmount() - transaction.get().getFee().doubleValue();
 				transaction.get().setAmount(newAmount.doubleValue());
@@ -67,7 +68,7 @@ public class TransactionStatusInputPort implements TransactionStatusUseCase {
 			And the amount
 			And the fee*/
 			else if (channel != null && channel == Channel.INTERNAL && 
-					transaction.get().getDate().toLocalDate().isBefore(LocalDate.now())) {
+					transaction.get().getDate().isBefore(ZonedDateTime.now())) {
 				status = TransactionStatus.SETTLED;
 				
 			}
@@ -79,7 +80,7 @@ public class TransactionStatusInputPort implements TransactionStatusUseCase {
 			And the amount substracting the fee*/
 			
 			else if (channel != null && (channel == Channel.CLIENT || channel == Channel.ATM) && 
-					transaction.get().getDate().toLocalDate().isEqual(LocalDate.now())) {
+					transaction.get().getDate().isEqual(ZonedDateTime.now())) {
 				status = TransactionStatus.PENDING;
 				Double newAmount = transaction.get().getAmount() - transaction.get().getFee().doubleValue();
 				transaction.get().setAmount(newAmount.doubleValue());
@@ -93,7 +94,7 @@ public class TransactionStatusInputPort implements TransactionStatusUseCase {
 			And the amount
 			And the fee*/
 			else if(channel != null && channel == Channel.INTERNAL && 
-					transaction.get().getDate().toLocalDate().isEqual(LocalDate.now())) {
+					transaction.get().getDate().isEqual(ZonedDateTime.now())) {
 				status = TransactionStatus.PENDING;
 				
 			}
@@ -104,7 +105,7 @@ public class TransactionStatusInputPort implements TransactionStatusUseCase {
 			Then: The system returns the status 'FUTURE'
 			And the amount substracting the fee*/
 			else if (channel != null && channel == Channel.CLIENT && 
-					transaction.get().getDate().toLocalDate().isAfter(LocalDate.now())) {
+					transaction.get().getDate().isAfter(ZonedDateTime.now())) {
 				status = TransactionStatus.FUTURE;
 				Double newAmount = transaction.get().getAmount() - transaction.get().getFee().doubleValue();
 				transaction.get().setAmount(newAmount);
@@ -117,7 +118,7 @@ public class TransactionStatusInputPort implements TransactionStatusUseCase {
 			Then: The system returns the status 'PENDING'
 			And the amount substracting the fee*/
 			else if (channel != null && channel == Channel.ATM && 
-					transaction.get().getDate().toLocalDate().isAfter(LocalDate.now())) {
+					transaction.get().getDate().isAfter(ZonedDateTime.now())) {
 				status = TransactionStatus.PENDING;
 				Double newAmount = transaction.get().getAmount() - transaction.get().getFee().doubleValue();
 				transaction.get().setAmount(newAmount);
@@ -131,7 +132,7 @@ public class TransactionStatusInputPort implements TransactionStatusUseCase {
 			And the amount
 			And the fee*/
 			else if (channel != null && channel == Channel.INTERNAL && 
-					transaction.get().getDate().toLocalDate().isAfter(LocalDate.now())) {
+					transaction.get().getDate().isAfter(ZonedDateTime.now())) {
 				status = TransactionStatus.FUTURE;
 				
 			}

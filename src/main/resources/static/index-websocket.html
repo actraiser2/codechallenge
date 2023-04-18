@@ -1,0 +1,28 @@
+<html>
+	<head>
+		<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+	</head>
+	
+	<body>
+		<label for="message-input">Enter your message</label>
+        <input type="text" class="form-control" id="message-input">
+        <button type="submit" onclick="sendMessage()">Send</button>
+        <ul id="message-list"></ul>
+
+		<script>
+			let websocket = new WebSocket('ws://localhost:8080/websocket');
+ 			
+ 			function sendMessage() {                                               
+			    console.log("Sending message");
+			    let input = document.getElementById('message-input');
+			    websocket.send(JSON.stringify({ message: input.value }));
+			}
+			
+			websocket.onmessage = event => {
+				console.log("Message received by websocket:" + event.data);
+				$('#message-list').append("<li>" + event.data + "</li>");
+			}
+		</script>
+	</body>
+</html>

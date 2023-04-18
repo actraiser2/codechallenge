@@ -1,0 +1,1 @@
+package com.josemiguel.codechallenge.infrastructure.healthchecks.handlers;

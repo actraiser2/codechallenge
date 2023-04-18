@@ -1,18 +1,6 @@
 package com.josemiguel.codechallenge.infrastructure.config;
 
-import org.springframework.context.annotation.Configuration;
-
-import io.dekorate.docker.annotation.DockerBuild;
-import io.dekorate.kubernetes.annotation.Container;
-import io.dekorate.kubernetes.annotation.EmptyDirVolume;
-import io.dekorate.kubernetes.annotation.Env;
-import io.dekorate.kubernetes.annotation.ImagePullPolicy;
-import io.dekorate.kubernetes.annotation.KubernetesApplication;
-import io.dekorate.kubernetes.annotation.Mount;
-import io.dekorate.kubernetes.annotation.Port;
-import io.dekorate.kubernetes.annotation.ServiceType;
-
-@Configuration
+/*@Configuration
 @KubernetesApplication(
 	sidecars = @Container(name="curl", image = "ubuntu:latest", command = {"bash", "-c"}, 
 		arguments = {"apt-get update; apt-get install -y curl; sleep 1000000"}),
@@ -31,7 +19,7 @@ import io.dekorate.kubernetes.annotation.ServiceType;
 	mounts = @Mount(name = "git-config", path = "/git")
 	)
 
-@DockerBuild(registry="ghcr.io", group = "actraiser2")
+@DockerBuild(registry="ghcr.io", group = "actraiser2")*/
 public class KubernetesConfig {
 
 }

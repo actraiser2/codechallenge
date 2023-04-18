@@ -24,7 +24,7 @@ public class CodechallengeApplication {
 		SpringApplication.run(CodechallengeApplication.class, args);
 	}
 
-	@Bean
+	//@Bean
 	public CommandLineRunner taskConfiguration(JobLauncher jobLauncher, Job job1) {
 		return args -> {
 			log.info("Executing my first task");

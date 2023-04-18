@@ -20,6 +20,9 @@ spring:
       enabled: false
   lifecycle:
     timeout-per-shutdown-phase: 50s
+  rsocket:
+    server:
+      port: 7000
 management:
   endpoints:
     web:
@@ -42,6 +45,12 @@ management:
 weather:
   url: https://api.openweathermap.org
   apiKey: 22073e0662677fdf6684f86fb4d470bf
+  
+logging:
+  level:
+    org.springframework.web.socket: DEBUG
+    
+
   
  
       

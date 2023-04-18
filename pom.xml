@@ -102,7 +102,7 @@
 		<dependency>
     		<groupId>org.springdoc</groupId>
     		<artifactId>springdoc-openapi-ui</artifactId>
-    		<version>1.6.2</version>
+    		<version>1.6.15</version>
 		</dependency>
 		
 		<dependency>
@@ -138,11 +138,11 @@
     		<artifactId>simpleclient_caffeine</artifactId>
 		</dependency>
 		
-		<dependency>
+		<!--<dependency>
 		     <groupId>io.dekorate</groupId>
 		     <artifactId>kubernetes-spring-starter</artifactId>
 		     <version>3.5.2</version>
-		</dependency>
+		</dependency>-->
 	 
  
 		<dependency>
@@ -177,8 +177,30 @@
 		     <groupId>org.springframework.cloud</groupId>
 		     <artifactId>spring-cloud-starter-task</artifactId>
 		</dependency>
-  
 		
+		<dependency>
+		     <groupId>org.springframework.boot</groupId>
+		     <artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+		
+		<!--<dependency>
+        	<groupId>io.projectreactor.netty</groupId>
+        	<artifactId>reactor-netty</artifactId>
+    	</dependency>-->
+    	
+    	<dependency>
+		    <groupId>org.openapitools</groupId>
+		    <artifactId>jackson-databind-nullable</artifactId>
+		    <version>0.2.6</version>
+		</dependency>
+		
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-rsocket</artifactId>
+        </dependency>
+
+	
+
 	</dependencies>
 
 	<build>
@@ -400,8 +422,31 @@
 			</executions>
 			</plugin>
 			
+			<plugin>
+			    <groupId>org.openapitools</groupId>
+			    <artifactId>openapi-generator-maven-plugin</artifactId>
+			    <!-- RELEASE_VERSION -->
+			    <version>6.5.0</version>
+			    <!-- /RELEASE_VERSION -->
+			    <executions>
+			        <execution>
+			            <goals>
+			                <goal>generate</goal>
+			            </goals>
+			            <configuration>
+			                <inputSpec>${project.basedir}/src/main/resources/swagger.yaml</inputSpec>
+			                <generatorName>spring</generatorName>
+			                
+			            </configuration>
+			        </execution>
+			    </executions>
+			</plugin>
+			
 		</plugins>
+		
+		
 	</build>
+	
 	
 	<scm>
    		<connection>scm:git:https://github.com/actraiser2/codechallenge.git</connection>
@@ -409,6 +454,7 @@
    		<developerConnection>scm:git:https://github.com/actraiser2/codechallenge.git</developerConnection>
 	  <tag>HEAD</tag>
   </scm>
+
   
   <distributionManagement>
     <repository>

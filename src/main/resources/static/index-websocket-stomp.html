@@ -1,0 +1,66 @@
+<html>
+	<head>
+		<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+	</head>
+	
+	<body>
+		
+		<script type="importmap">
+		  {
+		    "imports": {
+		      "@stomp/stompjs": "https://ga.jspm.io/npm:@stomp/stompjs@7.0.0/esm6/index.js"
+		    }
+  		}
+		</script>
+
+
+		<label for="message-input">Enter your message</label>
+        <input type="text" class="form-control" id="message-input">
+        <button type="submit" onclick="sendMessage()">Send</button>
+        <ul id="message-list"></ul>
+
+		<script type="module">
+			import { Client } from '@stomp/stompjs';
+			
+			let client = new Client({
+			    brokerURL: 'ws://localhost:8080/websocket-stomp',
+			    onConnect: () => {
+			       client.subscribe('/topic/test01', message => {
+			       		console.log("Message received by the topic test01:" + event.data);
+			       		
+			       		$('#message-list').append("<li>" + message.body + "</li>");
+			       });
+			       
+			       client.subscribe('/user/queue/test01', message => {
+			       		console.log("Message received by the topic test01:" + event.data);
+			       		
+			       		$('#message-list').append("<li> User:" + message.body + "</li>");
+			       });
+			      
+			    },
+			    
+			    onStompError: error => {
+			    	console.log("Error:" + error);
+			    }
+			  });
+			 
+  
+  			client.activate();
+  			
+  			function sendMessage(){
+  				let inf = document.getElementById("message-input").value;
+  			
+	 			client.publish({
+	 				destination:"/codechallenge/echo",
+	 				body:JSON.stringify({ message: inf })
+	 			});
+  			}
+  			
+  			window.sendMessage = sendMessage;
+  			
+  			
+ 			
+		</script>
+		
+	</body>
+</html>

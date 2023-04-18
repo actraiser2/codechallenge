@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
@@ -33,15 +34,15 @@ public class TestContainers {
 	public void testSomethingWithTestContainers() throws IOException {
 		
 		var t1 = TransactionDTO.builder().amount(10d).
-				date(LocalDateTime.now()).
+				date(ZonedDateTime.now()).
 				fee(new BigDecimal(3)).reference("1").build();
 		
 		var t2 = TransactionDTO.builder().amount(20d).
-				date(LocalDateTime.now()).
+				date(ZonedDateTime.now()).
 				fee(new BigDecimal(3)).reference("1").build();
 		
 		var t3 = TransactionDTO.builder().amount(30d).
-				date(LocalDateTime.now()).
+				date(ZonedDateTime.now()).
 				fee(new BigDecimal(3)).reference("2").build();
 		
 		

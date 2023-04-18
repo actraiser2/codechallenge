@@ -2,6 +2,7 @@ package com.josemiguel.codechallenge.domain.model.entities;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,7 +38,7 @@ public class Transaction {
 	private String reference;
 	
 	@Column(name = "OPERATION_DATE")
-	private LocalDateTime date;
+	private ZonedDateTime date;
 	
 	@Column(name = "AMOUNT")
 	private Double amount;

@@ -2,6 +2,7 @@ package com.josemiguel.codechallenge.domain.commands;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -23,7 +24,7 @@ public class CreateTransactionCommand {
 	private String iban;
 	
 	@JsonProperty("date") 
-	private LocalDateTime operationDate;
+	private ZonedDateTime operationDate;
 	
 	@NotNull BigDecimal amount;
 	

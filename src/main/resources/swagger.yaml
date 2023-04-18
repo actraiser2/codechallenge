@@ -1,0 +1,246 @@
+openapi: 3.0.1
+info:
+  title: hello-world
+  description: Hello World API
+  contact:
+    name: Arquitectura Software
+    url: https://apis.santalucia.es/hello-world/1.0
+    email: ignacio.lopezv@santalucia.es
+  version: "1.0"
+  x-dominio: Gadgets
+  x-desc-dominio:
+    schema:
+      $ref: '#/definitions/desc-dominio'
+servers:
+- url: https://apis.santalucia.es/hello-world/v1
+security:
+- oauthApplication: []
+paths:
+  /hello/{name}:
+    get:
+      tags:
+      - hello-world
+      summary: say hello to name
+      description: say hello to name
+      operationId: getHelloByName
+      parameters:
+      - name: name
+        in: path
+        description: hello name
+        required: true
+        schema:
+          maxLength: 15
+          type: string
+      - name: X-Request-ID
+        in: header
+        description: Identificador único de la petición
+        schema:
+          type: string
+          format: uuid
+        example: AVDGSGRT-DHUEYR74R-SJDK75EJDSK
+      responses:
+        200:
+          description: ok response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/identidadDigitalConsulta'
+  /hello/{name}/remote:
+    get:
+      tags:
+      - hello-world-remote
+      summary: say hello to name remote
+      description: say hello to name
+      operationId: getHelloByNameRemote
+      parameters:
+      - name: name
+        in: path
+        description: hello name
+        required: true
+        schema:
+          maxLength: 15
+          type: string
+      - name: X-Request-ID
+        in: header
+        description: Identificador único de la petición
+        schema:
+          type: string
+          format: uuid
+        example: AVDGSGRT-DHUEYR74R-SJDK75EJDSK
+      responses:
+        200:
+          description: ok response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/identidadDigitalConsulta'
+  /agencias/list:
+    get:
+      tags:
+      - list-agencias
+      summary: recovery agencias list
+      description: recovery agencias list
+      operationId: getAgenciasList
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: Identificador único de la petición
+        schema:
+          type: string
+          format: uuid
+        example: AVDGSGRT-DHUEYR74R-SJDK75EJDSK
+      responses:
+        200:
+          description: ok response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/agencia'
+      x-spring-paginated: true
+  /employees/list:
+    get:
+      tags:
+      - list-employees
+      summary: recovery employees list
+      description: recovery employees list
+      operationId: getEmployeesList
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: Identificador único de la petición
+        schema:
+          type: string
+          format: uuid
+        example: AVDGSGRT-DHUEYR74R-SJDK75EJDSK
+      responses:
+        200:
+          description: ok response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/employee'
+      x-spring-paginated: true
+  /indicadores/list:
+    get:
+      tags:
+      - list-indicadores
+      summary: recovery indicadores centros list
+      description: recovery indicadores centros list
+      operationId: getIndicadoresList
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: Identificador único de la petición
+        schema:
+          type: string
+          format: uuid
+        example: AVDGSGRT-DHUEYR74R-SJDK75EJDSK
+      responses:
+        200:
+          description: ok response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/indicador'
+      x-spring-paginated: true
+components:
+  schemas:
+    identidadDigitalConsulta:
+      type: object
+      properties:
+        nombre:
+          maxLength: 40
+          type: string
+          description: Nombre
+          example: hello juan
+        saludo:
+          maxLength: 40
+          type: string
+          description: Nombre
+          example: hello juan
+    agencia:
+      type: object
+      properties:
+        dprov:
+          maxLength: 255
+          type: string
+          description: Provincia de la agencia
+          example: Madrid
+        dpoblaci:
+          maxLength: 255
+          type: string
+          description: Poblacion de la agencia
+          example: Alicante
+        dagencia:
+          maxLength: 255
+          type: string
+          description: Nombre agencia
+          example: Nombre agencia
+        dtvia:
+          maxLength: 255
+          type: string
+          description: tipo de via
+          example: calle
+        ddomici:
+          maxLength: 255
+          type: string
+          description: domicilio de la agencia
+          example: lepanto 5
+    employee:
+      type: object
+      properties:
+        nombre:
+          maxLength: 255
+          type: string
+          description: First name
+          example: Juan
+        apellido:
+          maxLength: 255
+          type: string
+          description: Last name
+          example: Smith
+        emailAddress:
+          maxLength: 255
+          type: string
+          description: direccion de email
+          example: prueba@dominio.es
+    indicador:
+      type: object
+      properties:
+        ccentrab:
+          type: integer
+          description: ccentrab
+          example: 2
+        xcacetra:
+          maxLength: 255
+          type: string
+          description: xcacetra
+          example: Smith
+        finvaldt:
+          type: string
+          description: finvaldt
+          format: date
+          example: 2019-01-30
+        ffivaldt:
+          type: string
+          description: ffivaldt
+          format: date
+          example: 2019-01-30
+        fregilog:
+          type: string
+          description: fregilog
+          format: date
+          example: 2019-01-30
+  securitySchemes:
+    oauthApplication:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://sso-sldev.santalucia.es/auth/realms/stl-int/protocol/openid-connect/token
+          scopes: {}
