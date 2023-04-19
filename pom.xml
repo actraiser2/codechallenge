@@ -194,13 +194,7 @@
 		    <version>0.2.6</version>
 		</dependency>
 		
-		<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-rsocket</artifactId>
-        </dependency>
-
 	
-
 	</dependencies>
 
 	<build>
@@ -383,7 +377,13 @@
 			            <configuration>
 			                <inputSpec>${project.basedir}/src/main/resources/swagger.yaml</inputSpec>
 			                <generatorName>spring</generatorName>
-			                
+			              
+			                <apiPackage>com.josemiguel.codechallenge.api</apiPackage>
+			                <modelPackage>com.josemiguel.codechallenge.api.model</modelPackage>
+			                <configOptions>
+			                	  <interfaceOnly>true</interfaceOnly>
+			                	  <sourceFolder>/</sourceFolder>
+			                </configOptions>
 			            </configuration>
 			        </execution>
 			    </executions>

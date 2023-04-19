@@ -19,17 +19,8 @@ public class WebSocketStompConfiguration implements WebSocketMessageBrokerConfig
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
 		// TODO Auto-generated method stub
-		//registry.enableSimpleBroker("/queue", "/topic");
+		registry.enableSimpleBroker("/queue", "/topic");
 		
-			registry.enableStompBrokerRelay("/queue", "/topic").
-			setUserDestinationBroadcast("/topic/unresolved.user.dest").
-			setUserRegistryBroadcast("/topic/registry.broadcast").
-			setRelayHost("192.168.1.18").
-			setRelayPort(61613).
-			setSystemLogin("jmbesada").
-			setSystemPasscode("fenix000").
-			setClientLogin("jmbesada").
-			setClientPasscode("fenix000");
 		registry.setApplicationDestinationPrefixes("/codechallenge");
 	}
 
