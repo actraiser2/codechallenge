@@ -5,7 +5,7 @@ the Spring Boot framework
 
 Next steps for the future: 
 1. Publish events for converting the application into event driven. 
-2. Create the image for the aplication in order to it can run in a container, such as Docker
+2. Create the image for the aplication in order to it can run in a container, such as Docker.
 3. Create a pipeline based in Jenkins for CI/CD.
 
 
