@@ -1,3 +1,10 @@
+## [codechallenge-1.1.0](https://gitservice/codechallenge-1.1.0) (2023-04-14)
+
+
+### Bug Fixes
+
+ -  breaking changes ([0538fc48d711c0c](https://gitservice/commit/0538fc48d711c0c7012a48c666040f94fbf3d465))
+
 ## [codechallenge-1.0.8](https://gitservice/codechallenge-1.0.8) (2023-04-12)
 
 
