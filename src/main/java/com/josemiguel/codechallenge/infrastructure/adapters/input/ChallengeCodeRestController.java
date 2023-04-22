@@ -178,8 +178,6 @@ public class ChallengeCodeRestController {
 		StopWatch stopwatch = new StopWatch();
 		stopwatch.start();
 		jmsTemplate.convertAndSend("jms-queue", "ping");
-		log.info("Message received:" + jmsTemplate.receive("jms-queue").getBody(String.class));
-		
 		stopwatch.stop();
 		log.info("Duration of the request:" + stopwatch.getTime(TimeUnit.MILLISECONDS) + " mseg" );
 	}
