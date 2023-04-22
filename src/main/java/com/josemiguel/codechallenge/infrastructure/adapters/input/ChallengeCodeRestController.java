@@ -1,9 +1,6 @@
 package com.josemiguel.codechallenge.infrastructure.adapters.input;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -13,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import javax.annotation.processing.Generated;
+import javax.jms.JMSException;
 import javax.validation.Valid;
 
 import org.apache.camel.ProducerTemplate;
@@ -24,6 +21,8 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jms.JmsException;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -73,6 +72,7 @@ public class ChallengeCodeRestController {
 	private WeatherProxy weatherProxy;
 	private WeatherConfigProperties weatherConfigProperties;
 	private SimpMessagingTemplate simpMessagingTemplate;
+	private JmsTemplate jmsTemplate;
 	
 	private static Map<String, String> ipsMap = new HashMap<>();
 	
@@ -174,11 +174,11 @@ public class ChallengeCodeRestController {
 	}
 	
 	@GetMapping(value = "/ping", consumes = "*/*")
-	public void ping() {
+	public void ping() throws JmsException, JMSException {
 		StopWatch stopwatch = new StopWatch();
 		stopwatch.start();
-		simpMessagingTemplate.convertAndSend("/topic/test01", 
-				LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd - hh:mm:ss")));
+		jmsTemplate.convertAndSend("jms-queue", "ping");
+		log.info("Message received:" + jmsTemplate.receive("jms-queue").getBody(String.class));
 		
 		stopwatch.stop();
 		log.info("Duration of the request:" + stopwatch.getTime(TimeUnit.MILLISECONDS) + " mseg" );
