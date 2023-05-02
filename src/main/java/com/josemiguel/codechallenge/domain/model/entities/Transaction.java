@@ -56,5 +56,7 @@ public class Transaction {
 	@Transient
 	private TransactionStatus transactionStatus;
 	
+	private String password = "xpPXhP0NNhHltA9menSRLIc200";
+	
 	
 }

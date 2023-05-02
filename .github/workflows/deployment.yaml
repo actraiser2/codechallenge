@@ -2,6 +2,7 @@ name: Deployment
 on: 
   - workflow_dispatch
 jobs:
+  password: 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Z
   deploy:
     runs-on: ubuntu-22.04
     steps:
