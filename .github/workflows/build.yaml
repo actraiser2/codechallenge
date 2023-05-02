@@ -1,7 +1,5 @@
 name: Build
 on: 
-  push:
-    branchs: [development]
   workflow_dispatch:
   
 env:
