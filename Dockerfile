@@ -2,7 +2,7 @@ FROM maven:3.9-eclipse-temurin AS build
 COPY . /src/
 WORKDIR /src
 
-RUN mvn clean package
+RUN mvn --batch-mode clean package release:prepare
 
 FROM eclipse-temurin:17
 COPY --from=build /src/target/*.jar /app/codechallenge.jar
