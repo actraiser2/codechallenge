@@ -50,14 +50,14 @@ logging:
   level:
     org.springframework.web.socket: DEBUG
     
-amqphub:
-  amqp10jms:
-    remote-url: amqp://localhost:5672
-    username: jmbesada
-    password: fenix000
-    pool:
-      enabled: false
-      maxConnections: 10
+#amqphub:
+#  amqp10jms:
+#    remote-url: amqp://localhost:5672
+#    username: jmbesada
+#    password: fenix000
+#    pool:
+#      enabled: false
+#      maxConnections: 10
   
  
       
