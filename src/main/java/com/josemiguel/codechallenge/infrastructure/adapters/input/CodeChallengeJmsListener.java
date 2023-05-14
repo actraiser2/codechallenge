@@ -5,7 +5,6 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 
-import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
