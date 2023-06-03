@@ -9,10 +9,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.josemiguel.codechallenge.domain.commands.CreateAccountCommand;
 import com.josemiguel.codechallenge.domain.commands.CreateTransactionCommand;
 import com.josemiguel.codechallenge.domain.model.entities.Transaction;
@@ -45,6 +47,7 @@ public class Account {
 	@Column(name = "ACCOUNT_NAME")
 	private String accountName;
 	
+	@JsonIgnore
 	@Column(name = "IBAN")
 	private String iban;
 	
@@ -52,6 +55,9 @@ public class Account {
 	@CreationTimestamp
 	@Nullable
 	private LocalDateTime timestamp;
+	
+	@Version
+	private Long version;
 	
 	public Account(CreateAccountCommand command) {
 		this.accountName = command.getAccountName();

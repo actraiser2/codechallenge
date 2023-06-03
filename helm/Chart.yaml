@@ -1,4 +1,5 @@
 apiVersion: v2
+kubeVersion: ">= 1.20"
 name: codechallenge
 description: A Helm chart for codechallenge
 
@@ -22,3 +23,4 @@ version: 1.0.0
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
 appVersion: "2.7.10"
+

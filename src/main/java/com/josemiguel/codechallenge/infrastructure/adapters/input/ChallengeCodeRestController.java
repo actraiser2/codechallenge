@@ -49,7 +49,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping(value = "/api/v1", consumes = "application/json", produces = "application/json")
+@RequestMapping(value = "/api/v2", consumes = "application/json", produces = "application/json")
 @AllArgsConstructor
 @Tag(name = "Services available for the project code challenge")
 @Slf4j

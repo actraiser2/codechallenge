@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: codechallenge-cm
+data:
+  SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE: "{{ .Values.datasource.maximumPoolSize }}"
+  NSAMESPACE: {{ .Release.Namespace }}
+  KUBE_VERSION: {{ .Capabilities.KubeVersion }}
