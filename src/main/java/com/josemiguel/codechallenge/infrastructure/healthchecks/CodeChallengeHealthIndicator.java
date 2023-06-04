@@ -14,7 +14,7 @@ public class CodeChallengeHealthIndicator implements HealthIndicator {
 
 	@Override
 	public Health health() {
-		log.info("Calling codeChallengeHealthIndicator23" + 
+		log.info("Calling codeChallengeHealthIndicator3" + 
 				Paths.get("/tmp/codechallenge_readiness").toFile().exists());
 		if (!Paths.get("/tmp/codechallenge_readiness").toFile().exists()) {
 			return Health.up().build();
