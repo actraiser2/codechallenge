@@ -20,7 +20,7 @@ public class CodeChallengeHealthIndicator implements HealthIndicator {
 			return Health.up().build();
 		}
 		else {
-			return Health.down().build();
+			return Health.down().build(); 
 		}
 	}
 
