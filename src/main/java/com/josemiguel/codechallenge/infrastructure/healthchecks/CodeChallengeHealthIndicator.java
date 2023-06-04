@@ -16,7 +16,7 @@ public class CodeChallengeHealthIndicator implements HealthIndicator {
 	public Health health() {
 		log.info("Calling codeChallengeHealthIndicator:" + 
 				Paths.get("/tmp/codechallenge_readiness").toFile().exists());
-		if (Paths.get("/tmp/codechallenge_readiness").toFile().exists()) {
+		if (!Paths.get("/tmp/codechallenge_readiness").toFile().exists()) {
 			return Health.up().build();
 		}
 		else {

@@ -8,7 +8,7 @@ image:
   repository: quay.io/josemiguelbesada/codechallenge
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "702d94b"
+  tag: "latest"
 
 imagePullSecrets: []
 nameOverride: ""
