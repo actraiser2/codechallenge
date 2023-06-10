@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 2
+replicaCount: 1
 
 image:
   repository: quay.io/josemiguelbesada/codechallenge
@@ -10,7 +10,7 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: "40cd289"
 
-imagePullSecrets: josemiguelbesada-josemi-pull-secret-pull-secret
+imagePullSecrets: [josemiguelbesada-josemi-pull-secret-pull-secret]
 nameOverride: ""
 fullnameOverride: ""
 
