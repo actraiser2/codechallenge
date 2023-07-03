@@ -106,4 +106,9 @@ public class RestAdapter {
 		
 	}
 	
+	@GetMapping(value = "sayHello", consumes = "*/*")
+	public String sayHello(@RequestParam String name) {
+		return "Hello " + name;
+	}
+	
 }

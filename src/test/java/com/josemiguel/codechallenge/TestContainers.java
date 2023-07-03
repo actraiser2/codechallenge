@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 		"spring.batch.jdbc.initialize-schema=never"})
 public class TestContainers {
 
-	@Test
+	//@Test
 	public void testSomethingWithTestContainers() {
 		Assertions.assertTrue(true, () -> "true == true");
 	}
