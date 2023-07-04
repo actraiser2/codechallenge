@@ -13,8 +13,11 @@ spring:
     jdbc:
       initialize-schema: always
 management:
+  server:
+    port: 8081
   endpoints:
     web:
+      base-path: /management
       exposure:
         include:
         - health
@@ -24,5 +27,6 @@ management:
   endpoint:
     health:
       show-details: always
+      
 
       
