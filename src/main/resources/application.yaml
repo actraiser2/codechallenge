@@ -2,10 +2,10 @@ app:
   version: @project.version@
 spring:
   datasource:
-    url: jdbc:h2:mem:codechallenge;;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:/tmp/codechallenge;DB_CLOSE_ON_EXIT=FALSE
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
   cloud:
     function:
       definition: doSomething

@@ -7,7 +7,9 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -29,7 +31,8 @@ import lombok.extern.slf4j.Slf4j;
 public class Account {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "accounts_seq")
+	@SequenceGenerator(name="accounts_seq",sequenceName="accounts_seq", allocationSize=1, initialValue = 10)
 	@Column(name = "ACCOUNT_ID")
 	private Long accountId;
 	

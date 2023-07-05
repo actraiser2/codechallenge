@@ -31,7 +31,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping(value = "/api/v8", consumes = "application/json", produces = "application/json")
+@RequestMapping(value = "/api/v1", consumes = "application/json", produces = "application/json")
 @AllArgsConstructor
 @Tag(name = "Services available for the project code challenge")
 public class RestAdapter {
@@ -49,7 +49,7 @@ public class RestAdapter {
 	@Counted(description = "Number of accounts created")
 	public ResponseEntity<Void> createAccount(@RequestBody @Valid CreateAccountCommand command) {
 		createAccountUseCase.createAccount(command);
-		producerTemplate.sendBody("direct:restCodechallenge", command);
+		//producerTemplate.sendBody("direct:restCodechallenge", command);
 		meterRegistry.counter("accounts", "app", env.getProperty("app.version")).increment();
 		return ResponseEntity.status(201).build();
 	}
