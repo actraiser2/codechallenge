@@ -1,7 +1,10 @@
 package com.josemiguel.codechallenge.infrastructure.adapters.output.jpa;
 
-import com.josemiguel.codechallenge.application.ports.output.AccountRepositoryOutputPort;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface AccountJPARepository extends AccountRepositoryOutputPort {
+import com.josemiguel.codechallenge.application.ports.output.AccountRepositoryOutputPort;
+import com.josemiguel.codechallenge.domain.model.aggregates.Account;
+
+public interface AccountJPARepository extends AccountRepositoryOutputPort, JpaRepository<Account, Long> {
 
 }

@@ -7,9 +7,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -19,12 +21,13 @@ import com.josemiguel.codechallenge.domain.model.valueobjects.TransactionStatus;
 import lombok.Data;
 
 @Entity
-@Table(name = "TB_TRANSACTIONS")
+@Table(name = "TRANSACTIONS")
 @Data
 public class Transaction {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transactions_seq")
+	@SequenceGenerator(sequenceName = "transactions_seq", name = "transactions_seq")
 	private Long transactionId;
 	
 	@Column(name = "REFERENCE")

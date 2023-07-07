@@ -6,6 +6,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+      naming:
+        physical-strategy: com.josemiguel.codechallenge.infrastructure.naming.CodechallengeNamingStrategy
   cloud:
     function:
       definition: doSomething
@@ -27,6 +29,13 @@ management:
   endpoint:
     health:
       show-details: always
+      
+kafka:
+  username: josemi
+  password: 525700
+  hosts:
+    - josemi.com
+    - jalex.com
       
 
       

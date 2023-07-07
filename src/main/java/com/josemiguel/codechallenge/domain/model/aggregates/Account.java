@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,18 +16,22 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.Immutable;
 
 import com.josemiguel.codechallenge.domain.commands.CreateAccountCommand;
 import com.josemiguel.codechallenge.domain.commands.CreateTransactionCommand;
 import com.josemiguel.codechallenge.domain.model.entities.Transaction;
 import com.josemiguel.codechallenge.infrastructure.errors.exceptions.AccountBalanceBelowZeroException;
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Entity
-@Table(name = "TB_ACCOUNTS")
+@Table(name = "ACCOUNTS")
+@Immutable
 @Data
 @NoArgsConstructor
 @Slf4j
@@ -37,17 +44,25 @@ public class Account {
 	private Long accountId;
 	
 	@Column(name = "BALANCE")
+	@Access(AccessType.PROPERTY)
+	@Getter(AccessLevel.NONE)
 	private BigDecimal balance;
 	
 	@Column(name = "ACCOUNT_NAME")
+	@Basic(optional = false)
 	private String accountName;
 	
 	@Column(name = "IBAN")
+	@Basic(optional = false)
 	private String iban;
 	
 	@Column(name = "CREATION_DATE")
 	@CreationTimestamp
 	private LocalDateTime timestamp;
+	
+	@Column(name = "CURRENCY")
+	//@ColumnDefault(value = "EUR")
+	private String currency;
 	
 	public Account(CreateAccountCommand command) {
 		this.accountName = command.getAccountName();
@@ -79,6 +94,11 @@ public class Account {
 			
 			return transaction;
 		}
+	}
+
+	public BigDecimal getBalance() {
+		log.info("Accessing balance:" + balance);
+		return balance;
 	}
 	
 	

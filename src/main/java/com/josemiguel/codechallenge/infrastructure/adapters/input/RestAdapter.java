@@ -15,25 +15,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.josemiguel.codechallenge.application.ports.output.AccountRepositoryOutputPort;
 import com.josemiguel.codechallenge.application.usecases.CreateAccountUseCase;
 import com.josemiguel.codechallenge.application.usecases.CreateTransactionUseCase;
 import com.josemiguel.codechallenge.application.usecases.SearchTransactionsUseCase;
 import com.josemiguel.codechallenge.application.usecases.TransactionStatusUseCase;
 import com.josemiguel.codechallenge.domain.commands.CreateAccountCommand;
 import com.josemiguel.codechallenge.domain.commands.CreateTransactionCommand;
+import com.josemiguel.codechallenge.domain.model.aggregates.Account;
+import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.AccountListDTO;
 import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.TransactionDTO;
 import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.TransactionStatusRequestDTO;
+import com.josemiguel.codechallenge.infrastructure.config.props.KafkaConfigProperties;
 
 import io.micrometer.core.annotation.Counted;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping(value = "/api/v5", consumes = "application/json", produces = "application/json")
+@RequestMapping(value = "/api/v1", consumes = "application/json", produces = "application/json")
 @AllArgsConstructor
 @Tag(name = "Services available for the project code challenge")
+@Slf4j
 public class RestAdapter {
 
 	private CreateAccountUseCase createAccountUseCase;
@@ -43,6 +49,8 @@ public class RestAdapter {
 	private ProducerTemplate producerTemplate;
 	private MeterRegistry meterRegistry;
 	private Environment env;
+	private AccountRepositoryOutputPort accountRepository;
+	private List<KafkaConfigProperties> kafkaPropertiesList;
 	
 	@PostMapping("/accounts")
 	@Operation(description = "This method allows you to insert a new account")
@@ -52,6 +60,16 @@ public class RestAdapter {
 		//producerTemplate.sendBody("direct:restCodechallenge", command);
 		meterRegistry.counter("accounts", "app", env.getProperty("app.version")).increment();
 		return ResponseEntity.status(201).build();
+	}
+	
+	@GetMapping(value = "/accounts", consumes = "*/*")
+	@Operation(description = "This method lists all the accounts")
+	public ResponseEntity<AccountListDTO> createAcgetAccountscount() {
+		log.info("Accessing all accounts");
+		var accounts = AccountListDTO.builder().
+				accountList(accountRepository.findAll()).build();
+		log.info("Done !!!!:" + kafkaPropertiesList);
+		return ResponseEntity.ok(accounts);
 	}
 	
 	@PostMapping("/transactions")

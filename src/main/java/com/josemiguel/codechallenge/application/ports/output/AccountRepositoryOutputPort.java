@@ -1,5 +1,6 @@
 package com.josemiguel.codechallenge.application.ports.output;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
@@ -10,5 +11,7 @@ import com.josemiguel.codechallenge.domain.model.aggregates.Account;
 @NoRepositoryBean
 public interface AccountRepositoryOutputPort extends CrudRepository<Account, Long>{
 
+	
+	public List<Account> findAll();
 	public Optional<Account> findByIban(String iban);
 }
