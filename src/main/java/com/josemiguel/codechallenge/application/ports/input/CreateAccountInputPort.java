@@ -1,5 +1,8 @@
 package com.josemiguel.codechallenge.application.ports.input;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
@@ -13,12 +16,13 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
-@Transactional
+//@Transactional
 @Slf4j
 @AllArgsConstructor
 public class CreateAccountInputPort implements CreateAccountUseCase {
 
 	private AccountRepositoryOutputPort accountRepository;
+	private EntityManagerFactory emf;
 	
 	@Override
 	public void createAccount(CreateAccountCommand command) {
@@ -28,8 +32,19 @@ public class CreateAccountInputPort implements CreateAccountUseCase {
 		Account account = new Account(command);
 		accountRepository.save(account);
 		
-		log.info("Created !!!!!:" + account.getAccountId());
+		Long accountId = account.getAccountId();
 		
+		log.info("Created !!!!!:" + accountId);
+		log.info("IsCreated:" + emf.getPersistenceUnitUtil().isLoaded(account));
+		log.info("Is the same reference:" + 
+				(accountRepository.findById(accountId).get() == account));
+		
+		try {
+			Thread.sleep(60000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

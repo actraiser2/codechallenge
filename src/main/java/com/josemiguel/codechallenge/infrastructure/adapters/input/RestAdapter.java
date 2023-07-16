@@ -3,6 +3,9 @@ package com.josemiguel.codechallenge.infrastructure.adapters.input;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 
 import org.apache.camel.ProducerTemplate;
@@ -51,6 +54,9 @@ public class RestAdapter {
 	private Environment env;
 	private AccountRepositoryOutputPort accountRepository;
 	private List<KafkaConfigProperties> kafkaPropertiesList;
+	private EntityManagerFactory emf;
+	@PersistenceContext
+	private final EntityManager entityManager;
 	
 	@PostMapping("/accounts")
 	@Operation(description = "This method allows you to insert a new account")
@@ -126,6 +132,14 @@ public class RestAdapter {
 	
 	@GetMapping(value = "sayHello", consumes = "*/*")
 	public String sayHello(@RequestParam String name) {
+		log.info("EntityManager:" + entityManager);
+		var account = new Account();
+		log.info(emf.getPersistenceUnitUtil().getIdentifier(account) + "");
+		var accountRef = entityManager.getReference(Account.class, 10L);
+		
+		log.info("Account initialized:" + emf.getPersistenceUnitUtil().isLoaded(accountRef));
+		accountRef.getIban();
+		log.info("Account initialized after invoking a method:" + emf.getPersistenceUnitUtil().isLoaded(accountRef));
 		return "Hello " + name;
 	}
 	
