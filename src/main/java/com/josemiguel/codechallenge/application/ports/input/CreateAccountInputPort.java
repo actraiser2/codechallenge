@@ -38,13 +38,7 @@ public class CreateAccountInputPort implements CreateAccountUseCase {
 		log.info("IsCreated:" + emf.getPersistenceUnitUtil().isLoaded(account));
 		log.info("Is the same reference:" + 
 				(accountRepository.findById(accountId).get() == account));
-		
-		try {
-			Thread.sleep(60000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
 	}
 
 }
