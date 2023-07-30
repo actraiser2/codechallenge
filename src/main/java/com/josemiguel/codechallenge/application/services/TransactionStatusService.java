@@ -1,4 +1,4 @@
-package com.josemiguel.codechallenge.application.ports.input;
+package com.josemiguel.codechallenge.application.services;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -6,8 +6,8 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.josemiguel.codechallenge.application.ports.output.TransactionRepositoryOutputPort;
-import com.josemiguel.codechallenge.application.usecases.TransactionStatusUseCase;
+import com.josemiguel.codechallenge.application.ports.input.TransactionStatusUseCase;
+import com.josemiguel.codechallenge.application.ports.output.TransactionRepositoryRepository;
 import com.josemiguel.codechallenge.domain.model.entities.Transaction;
 import com.josemiguel.codechallenge.domain.model.valueobjects.Channel;
 import com.josemiguel.codechallenge.domain.model.valueobjects.TransactionStatus;
@@ -18,8 +18,8 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class TransactionStatusInputPort implements TransactionStatusUseCase {
-	private TransactionRepositoryOutputPort transactionRepository;
+class TransactionStatusService implements TransactionStatusUseCase {
+	private TransactionRepositoryRepository transactionRepository;
 	
 	
 	@Override

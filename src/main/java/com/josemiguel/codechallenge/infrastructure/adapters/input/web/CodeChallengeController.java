@@ -1,4 +1,4 @@
-package com.josemiguel.codechallenge.infrastructure.adapters.input;
+package com.josemiguel.codechallenge.infrastructure.adapters.input.web;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.josemiguel.codechallenge.application.ports.output.AccountRepositoryOutputPort;
-import com.josemiguel.codechallenge.application.usecases.CreateAccountUseCase;
-import com.josemiguel.codechallenge.application.usecases.CreateTransactionUseCase;
-import com.josemiguel.codechallenge.application.usecases.SearchTransactionsUseCase;
-import com.josemiguel.codechallenge.application.usecases.TransactionStatusUseCase;
+import com.josemiguel.codechallenge.application.ports.input.CreateAccountUseCase;
+import com.josemiguel.codechallenge.application.ports.input.CreateTransactionUseCase;
+import com.josemiguel.codechallenge.application.ports.input.SearchTransactionsUseCase;
+import com.josemiguel.codechallenge.application.ports.input.TransactionStatusUseCase;
+import com.josemiguel.codechallenge.application.ports.output.AccountRepositoryRepository;
 import com.josemiguel.codechallenge.domain.commands.CreateAccountCommand;
 import com.josemiguel.codechallenge.domain.commands.CreateTransactionCommand;
 import com.josemiguel.codechallenge.domain.model.aggregates.Account;
@@ -39,11 +39,11 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping(value = "/api/v1", consumes = "application/json", produces = "application/json")
+@RequestMapping(value = "/api/v1")
 @AllArgsConstructor
 @Tag(name = "Services available for the project code challenge")
 @Slf4j
-public class RestAdapter {
+public class CodeChallengeController {
 
 	private CreateAccountUseCase createAccountUseCase;
 	private CreateTransactionUseCase createTransactionUseCase;
@@ -52,7 +52,7 @@ public class RestAdapter {
 	private ProducerTemplate producerTemplate;
 	private MeterRegistry meterRegistry;
 	private Environment env;
-	private AccountRepositoryOutputPort accountRepository;
+	private AccountRepositoryRepository accountRepository;
 	private List<KafkaConfigProperties> kafkaPropertiesList;
 	private EntityManagerFactory emf;
 	@PersistenceContext

@@ -9,7 +9,7 @@ import org.springframework.data.repository.NoRepositoryBean;
 import com.josemiguel.codechallenge.domain.model.aggregates.Account;
 
 @NoRepositoryBean
-public interface AccountRepositoryOutputPort extends CrudRepository<Account, Long>{
+public interface AccountRepositoryRepository extends CrudRepository<Account, Long>{
 
 	
 	public List<Account> findAll();

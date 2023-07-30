@@ -1,4 +1,4 @@
-package com.josemiguel.codechallenge.application.ports.input;
+package com.josemiguel.codechallenge.application.services;
 
 import java.util.Optional;
 
@@ -7,9 +7,9 @@ import javax.transaction.Transactional;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import com.josemiguel.codechallenge.application.ports.output.AccountRepositoryOutputPort;
-import com.josemiguel.codechallenge.application.ports.output.TransactionRepositoryOutputPort;
-import com.josemiguel.codechallenge.application.usecases.CreateTransactionUseCase;
+import com.josemiguel.codechallenge.application.ports.input.CreateTransactionUseCase;
+import com.josemiguel.codechallenge.application.ports.output.AccountRepositoryRepository;
+import com.josemiguel.codechallenge.application.ports.output.TransactionRepositoryRepository;
 import com.josemiguel.codechallenge.domain.commands.CreateTransactionCommand;
 import com.josemiguel.codechallenge.domain.model.entities.Transaction;
 import com.josemiguel.codechallenge.infrastructure.errors.exceptions.ExistingTransactionException;
@@ -22,10 +22,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @AllArgsConstructor
 @Transactional
-public class CreateTransactionInputPort implements CreateTransactionUseCase {
+class CreateTransactionService implements CreateTransactionUseCase {
 
-	private AccountRepositoryOutputPort accountRepository;
-	private TransactionRepositoryOutputPort transactionRepository;
+	private AccountRepositoryRepository accountRepository;
+	private TransactionRepositoryRepository transactionRepository;
 	
 	@Override
 	public void createTransaction(CreateTransactionCommand command) {

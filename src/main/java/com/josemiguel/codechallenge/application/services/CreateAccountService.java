@@ -1,14 +1,11 @@
-package com.josemiguel.codechallenge.application.ports.input;
+package com.josemiguel.codechallenge.application.services;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
-import com.josemiguel.codechallenge.application.ports.output.AccountRepositoryOutputPort;
-import com.josemiguel.codechallenge.application.usecases.CreateAccountUseCase;
+import com.josemiguel.codechallenge.application.ports.input.CreateAccountUseCase;
+import com.josemiguel.codechallenge.application.ports.output.AccountRepositoryRepository;
 import com.josemiguel.codechallenge.domain.commands.CreateAccountCommand;
 import com.josemiguel.codechallenge.domain.model.aggregates.Account;
 
@@ -19,9 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 //@Transactional
 @Slf4j
 @AllArgsConstructor
-public class CreateAccountInputPort implements CreateAccountUseCase {
+class CreateAccountService implements CreateAccountUseCase {
 
-	private AccountRepositoryOutputPort accountRepository;
+	private AccountRepositoryRepository accountRepository;
 	private EntityManagerFactory emf;
 	
 	@Override

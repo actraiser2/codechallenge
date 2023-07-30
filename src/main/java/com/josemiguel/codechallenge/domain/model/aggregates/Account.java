@@ -65,8 +65,8 @@ public class Account {
 	private String currency;
 	
 	public Account(CreateAccountCommand command) {
-		this.accountName = command.getAccountName();
-		this.iban = command.getIban();
+		this.accountName = command.accountName();
+		this.iban = command.iban();
 		this.balance = new BigDecimal(0);
 	}
 	

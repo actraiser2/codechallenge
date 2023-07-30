@@ -1,4 +1,4 @@
-package com.josemiguel.codechallenge.application.usecases;
+package com.josemiguel.codechallenge.application.ports.input;
 
 import java.util.List;
 
