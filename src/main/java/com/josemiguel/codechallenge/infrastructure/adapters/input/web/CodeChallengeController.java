@@ -1,6 +1,7 @@
 package com.josemiguel.codechallenge.infrastructure.adapters.input.web;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
@@ -71,11 +72,11 @@ public class CodeChallengeController {
 	@GetMapping(value = "/accounts", consumes = "*/*")
 	@Operation(description = "This method lists all the accounts")
 	public ResponseEntity<AccountListDTO> createAcgetAccountscount() {
-		log.info("Accessing all accounts");
+		
 		var accounts = AccountListDTO.builder().
 				accountList(accountRepository.findAll()).build();
-		log.info("Done !!!!:" + kafkaPropertiesList);
-		return ResponseEntity.ok(accounts);
+		log.info("Accessing all accounts:" + accounts);
+		return ResponseEntity.of(Optional.ofNullable(accounts));
 	}
 	
 	@PostMapping("/transactions")

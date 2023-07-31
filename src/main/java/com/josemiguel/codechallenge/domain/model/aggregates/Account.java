@@ -9,6 +9,7 @@ import javax.persistence.AccessType;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,9 +18,11 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.Immutable;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.josemiguel.codechallenge.domain.commands.CreateAccountCommand;
 import com.josemiguel.codechallenge.domain.commands.CreateTransactionCommand;
+import com.josemiguel.codechallenge.domain.model.entities.AuditingEntity;
 import com.josemiguel.codechallenge.domain.model.entities.Transaction;
 import com.josemiguel.codechallenge.infrastructure.errors.exceptions.AccountBalanceBelowZeroException;
 
@@ -32,10 +35,11 @@ import lombok.extern.slf4j.Slf4j;
 @Entity
 @Table(name = "ACCOUNTS")
 @Immutable
-@Data
+@Data()
 @NoArgsConstructor
 @Slf4j
-public class Account {
+@EntityListeners(AuditingEntityListener.class)
+public class Account extends AuditingEntity	{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "accounts_seq")
@@ -97,7 +101,6 @@ public class Account {
 	}
 
 	public BigDecimal getBalance() {
-		log.info("Accessing balance:" + balance);
 		return balance;
 	}
 	
