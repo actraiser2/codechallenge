@@ -26,6 +26,7 @@ management:
         - info 
         - metrics
         - prometheus
+        - prometheus
   endpoint:
     health:
       show-details: always
