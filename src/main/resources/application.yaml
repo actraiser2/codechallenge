@@ -21,12 +21,8 @@ management:
     web:
       base-path: /management
       exposure:
-        include:
-        - health
-        - info 
-        - metrics
-        - prometheus
-        - prometheus
+        include: 
+          - "*"
   endpoint:
     health:
       show-details: always
@@ -37,6 +33,18 @@ kafka:
   hosts:
     - josemi.com
     - jalex.com
+    
+---
+spring:
+  config:
+    activate:
+      on-profile:
+      - localhost
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: rabbitmq
+    password: fenix000
       
 
       

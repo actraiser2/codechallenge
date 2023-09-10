@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 
 import org.apache.camel.ProducerTemplate;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,6 +59,7 @@ public class CodeChallengeController {
 	private EntityManagerFactory emf;
 	@PersistenceContext
 	private final EntityManager entityManager;
+	private RabbitTemplate rabbitTemplate;
 	
 	@PostMapping("/accounts")
 	@Operation(description = "This method allows you to insert a new account")
@@ -66,6 +68,7 @@ public class CodeChallengeController {
 		createAccountUseCase.createAccount(command);
 		//producerTemplate.sendBody("direct:restCodechallenge", command);
 		meterRegistry.counter("accounts", "app", env.getProperty("app.version")).increment();
+		rabbitTemplate.convertAndSend("accounts", command);
 		return ResponseEntity.status(201).build();
 	}
 	

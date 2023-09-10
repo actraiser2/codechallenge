@@ -1,5 +1,6 @@
 package com.josemiguel.codechallenge.domain.commands;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -11,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class CreateTransactionCommand {
+public class CreateTransactionCommand implements Serializable{
 
 	private String reference;
 	

@@ -174,8 +174,13 @@
 	        <artifactId>micrometer-registry-prometheus</artifactId>
       
 		</dependency>
-  
 		
+		<dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter-amqp</artifactId>
+      
+		</dependency>
+  
 	</dependencies>
 
 	<build>
@@ -195,6 +200,7 @@
 						<publish>true</publish>
 						<name>${env.REGISTRY}/${env.IMAGE}:${project.version}</name>
 					</image>
+					<jvmArguments>-Dspring.profiles.active=localhost</jvmArguments>
 				</configuration>
 			</plugin>
 		</plugins>
