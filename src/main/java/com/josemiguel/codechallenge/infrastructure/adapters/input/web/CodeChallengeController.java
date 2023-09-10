@@ -68,7 +68,7 @@ public class CodeChallengeController {
 		createAccountUseCase.createAccount(command);
 		//producerTemplate.sendBody("direct:restCodechallenge", command);
 		meterRegistry.counter("accounts", "app", env.getProperty("app.version")).increment();
-		rabbitTemplate.convertAndSend("accounts", command);
+		//rabbitTemplate.convertAndSend("accounts", command);
 		return ResponseEntity.status(201).build();
 	}
 	
