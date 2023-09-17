@@ -1,7 +1,9 @@
-FROM maven:3.9-eclipse-temurin AS build
+FROM maven:3.9-eclipse-temurin-17 AS build
 WORKDIR /sources
 COPY . ./
-RUN mvn --batch-mode clean package
+
+RUN su root && curl -fsSL https://get.docker.com -o get-docker.sh && \
+   chmod +x get-docker.sh && ./get-docker.sh && mvn --batch-mode clean package
 
 
 
@@ -22,5 +24,4 @@ COPY --from=extract /extract/application/ ./
 
 EXPOSE 8080
 
-ENTRYPOINT ["java","
-"]
+ENTRYPOINT ["java","org.springframework.boot.loader.JarLauncher"]
