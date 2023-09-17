@@ -2,14 +2,12 @@ package com.josemiguel.codechallenge.infrastructure.adapters.input.web;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 
-import org.apache.camel.ProducerTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
@@ -28,10 +26,13 @@ import com.josemiguel.codechallenge.application.ports.output.AccountRepositoryRe
 import com.josemiguel.codechallenge.domain.commands.CreateAccountCommand;
 import com.josemiguel.codechallenge.domain.commands.CreateTransactionCommand;
 import com.josemiguel.codechallenge.domain.model.aggregates.Account;
-import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.AccountListDTO;
+import com.josemiguel.codechallenge.domain.model.entities.Transaction;
+import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.AccountDTO;
 import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.TransactionDTO;
 import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.TransactionStatusRequestDTO;
 import com.josemiguel.codechallenge.infrastructure.config.props.KafkaConfigProperties;
+import com.josemiguel.codechallenge.infrastructure.mappers.AccountMapper;
+import com.josemiguel.codechallenge.infrastructure.mappers.TransactionMapper;
 
 import io.micrometer.core.annotation.Counted;
 import io.micrometer.core.instrument.MeterRegistry;
@@ -51,7 +52,6 @@ public class CodeChallengeController {
 	private CreateTransactionUseCase createTransactionUseCase;
 	private SearchTransactionsUseCase searchTransactionsUseCase;
 	private TransactionStatusUseCase transactionStatusUseCase;
-	private ProducerTemplate producerTemplate;
 	private MeterRegistry meterRegistry;
 	private Environment env;
 	private AccountRepositoryRepository accountRepository;
@@ -60,6 +60,8 @@ public class CodeChallengeController {
 	@PersistenceContext
 	private final EntityManager entityManager;
 	private RabbitTemplate rabbitTemplate;
+	private TransactionMapper transactionMapper;
+	private AccountMapper accountMapper;
 	
 	@PostMapping("/accounts")
 	@Operation(description = "This method allows you to insert a new account")
@@ -74,12 +76,11 @@ public class CodeChallengeController {
 	
 	@GetMapping(value = "/accounts", consumes = "*/*")
 	@Operation(description = "This method lists all the accounts")
-	public ResponseEntity<AccountListDTO> createAcgetAccountscount() {
+	public ResponseEntity<List<AccountDTO>> accounts() {
 		
-		var accounts = AccountListDTO.builder().
-				accountList(accountRepository.findAll()).build();
+		var accounts = accountRepository.findAll();
 		log.info("Accessing all accounts:" + accounts);
-		return ResponseEntity.of(Optional.ofNullable(accounts));
+		return ResponseEntity.of(Optional.ofNullable(accountMapper.toListAccountDTO(accounts)));
 	}
 	
 	@PostMapping("/transactions")
@@ -93,19 +94,9 @@ public class CodeChallengeController {
 	@Operation(description = "This method is used for querying movements using a couple filters")
 	public List<TransactionDTO> searchTransactions(@RequestParam String iban, @RequestParam int sortByAmount) {
 		
-		return searchTransactionsUseCase.searchTransactions(iban, sortByAmount).
-				stream().
-				map(t -> {
-					var transactionDTO = new TransactionDTO();
-					transactionDTO.setAmount(t.getAmount());
-					transactionDTO.setFee(t.getFee());
-					transactionDTO.setDescription(t.getDescription());
-					transactionDTO.setReference(t.getReference());
-					transactionDTO.setDate(t.getDate());
-					
-					return transactionDTO;
-				}).
-				collect(Collectors.toList());
+		var transactions = searchTransactionsUseCase.searchTransactions(iban, sortByAmount);
+		log.info("Transactions returned:" + transactions);
+		return transactionMapper.mapToListTransactionDTO(transactions);
 		
 	}
 	
@@ -113,24 +104,8 @@ public class CodeChallengeController {
 	@Operation(description = "This method is used for querying the status of a movement")
 	public TransactionDTO transactionStatus(@Valid @RequestBody TransactionStatusRequestDTO request) {
 		var transaction = transactionStatusUseCase.getTransactionStatus(request);
-		var transactionStatus = transactionStatusUseCase.applyBusinessRule(transaction, request.getChannel());
 		
-		return transaction.
-			map(t -> {
-				var transactionDTO = new TransactionDTO();
-				transactionDTO.setAmount(t.getAmount());
-				transactionDTO.setFee(t.getFee());
-				transactionDTO.setDescription(t.getDescription());
-				transactionDTO.setReference(t.getReference());
-				transactionDTO.setDate(t.getDate());
-				transactionDTO.setStatus(transactionStatus);
-				
-				return transactionDTO;
-			}).orElseGet(() -> {
-				var transactionDTO = new TransactionDTO();
-				transactionDTO.setStatus(transactionStatus);
-				return transactionDTO;
-			});
+		return transactionMapper.mapToTransactionDTO(transaction.orElseGet(() -> new Transaction()));
 		
 	}
 	

@@ -13,8 +13,10 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.Immutable;
@@ -33,7 +35,7 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Entity
-@Table(name = "ACCOUNTS")
+@Table(name = "ACCOUNTS", indexes = @Index(columnList = "iban"))
 @Immutable
 @Data()
 @NoArgsConstructor
@@ -57,7 +59,6 @@ public class Account extends AuditingEntity	{
 	private String accountName;
 	
 	@Column(name = "IBAN")
-	@Basic(optional = false)
 	private String iban;
 	
 	@Column(name = "CREATION_DATE")
@@ -67,6 +68,10 @@ public class Account extends AuditingEntity	{
 	@Column(name = "CURRENCY")
 	//@ColumnDefault(value = "EUR")
 	private String currency;
+	
+	@Version
+	@Column(name = "VERSION")
+	private Long version;
 	
 	public Account(CreateAccountCommand command) {
 		this.accountName = command.accountName();

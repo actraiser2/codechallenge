@@ -33,6 +33,11 @@ kafka:
   hosts:
     - josemi.com
     - jalex.com
+springdoc:
+  swagger-ui:
+    path: /openapi/swagger-ui.html
+  api-docs:
+    path: /openapi/v3/api-docs
     
 ---
 spring:

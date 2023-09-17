@@ -9,14 +9,14 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class FunctionsConfiguration {
 
-	@Bean
+	//@Bean
 	public Supplier<String> doSomething(){
 		return () -> {
 			return "Returning my first function";
 		};
 	}
 	
-	@Bean
+	//@Bean
 	public Function<String, String> doSomething2(){
 		return (c) -> {
 			return c + c;
