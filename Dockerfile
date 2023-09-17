@@ -1,11 +1,7 @@
-FROM maven:3.9-eclipse-temurin-17 AS build
+FROM eclipse-temurin:17 AS build
+COPY . /sources
 WORKDIR /sources
-COPY . ./
-
-RUN su root && curl -fsSL https://get.docker.com -o get-docker.sh && \
-   chmod +x get-docker.sh && ./get-docker.sh && mvn --batch-mode clean package
-
-
+RUN mvn --batch-mode -DskipTests=true clean package
 
 
 FROM eclipse-temurin:17-jre AS extract
