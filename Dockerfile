@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17 AS build
+FROM maven:eclipse-temurin-17 AS build
 COPY . /sources
 WORKDIR /sources
 RUN mvn --batch-mode -DskipTests=true clean package
