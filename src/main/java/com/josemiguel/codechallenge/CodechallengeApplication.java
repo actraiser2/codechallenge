@@ -3,6 +3,7 @@ package com.josemiguel.codechallenge;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+import org.springframework.data.envers.repository.config.EnableEnversRepositories;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 @ConfigurationPropertiesScan("com.josemiguel.codechallenge.infrastructure.config")
 @EnableJpaAuditing
 @Slf4j
+@EnableEnversRepositories
+//@EnableTransactionManagement
 public class CodechallengeApplication {
 
 	public static void main(String[] args) {

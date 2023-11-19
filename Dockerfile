@@ -1,4 +1,6 @@
 FROM maven:3.9-eclipse-temurin-17 AS build
+LABEL maintainer="jmbesada.juez@gmail.com"
+
 COPY . /sources
 WORKDIR /sources
 RUN mvn --batch-mode -DskipTests=true clean package

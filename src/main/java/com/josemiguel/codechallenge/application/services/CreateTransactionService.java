@@ -8,8 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.josemiguel.codechallenge.application.ports.input.CreateTransactionUseCase;
-import com.josemiguel.codechallenge.application.ports.output.AccountRepositoryRepository;
-import com.josemiguel.codechallenge.application.ports.output.TransactionRepositoryRepository;
+import com.josemiguel.codechallenge.application.ports.output.AccountRepository;
+import com.josemiguel.codechallenge.application.ports.output.TransactionRepository;
 import com.josemiguel.codechallenge.domain.commands.CreateTransactionCommand;
 import com.josemiguel.codechallenge.domain.model.entities.Transaction;
 import com.josemiguel.codechallenge.infrastructure.errors.exceptions.ExistingTransactionException;
@@ -24,8 +24,8 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 class CreateTransactionService implements CreateTransactionUseCase {
 
-	private AccountRepositoryRepository accountRepository;
-	private TransactionRepositoryRepository transactionRepository;
+	private AccountRepository accountRepository;
+	private TransactionRepository transactionRepository;
 	
 	@Override
 	public void createTransaction(CreateTransactionCommand command) {

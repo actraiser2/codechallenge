@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.josemiguel.codechallenge.application.ports.input.TransactionStatusUseCase;
-import com.josemiguel.codechallenge.application.ports.output.TransactionRepositoryRepository;
+import com.josemiguel.codechallenge.application.ports.output.TransactionRepository;
 import com.josemiguel.codechallenge.domain.model.entities.Transaction;
 import com.josemiguel.codechallenge.domain.model.valueobjects.Channel;
 import com.josemiguel.codechallenge.domain.model.valueobjects.TransactionStatus;
@@ -19,7 +19,7 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 class TransactionStatusService implements TransactionStatusUseCase {
-	private TransactionRepositoryRepository transactionRepository;
+	private TransactionRepository transactionRepository;
 	
 	
 	@Override

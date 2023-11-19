@@ -12,4 +12,5 @@ import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.AccountDTO
 public interface AccountMapper {
 
 	public List<AccountDTO> toListAccountDTO(List<Account> accounts);
+	
 }

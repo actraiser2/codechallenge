@@ -19,6 +19,7 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.envers.Audited;
 import org.springframework.data.annotation.Immutable;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -41,6 +42,7 @@ import lombok.extern.slf4j.Slf4j;
 @NoArgsConstructor
 @Slf4j
 @EntityListeners(AuditingEntityListener.class)
+@Audited
 public class Account extends AuditingEntity	{
 
 	@Id
@@ -69,6 +71,9 @@ public class Account extends AuditingEntity	{
 	//@ColumnDefault(value = "EUR")
 	private String currency;
 	
+	@Column(name = "holderName")
+	private String holderName;
+	
 	@Version
 	@Column(name = "VERSION")
 	private Long version;
@@ -77,6 +82,7 @@ public class Account extends AuditingEntity	{
 		this.accountName = command.accountName();
 		this.iban = command.iban();
 		this.balance = new BigDecimal(0);
+		this.holderName = command.holderName();
 	}
 	
 	public Transaction addTransaction(CreateTransactionCommand command) {

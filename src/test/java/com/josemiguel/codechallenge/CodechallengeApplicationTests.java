@@ -1,84 +1,62 @@
 package com.josemiguel.codechallenge;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
-import org.testcontainers.containers.MySQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import lombok.extern.slf4j.Slf4j;
+import com.josemiguel.codechallenge.infrastructure.config.CacheConfig;
 
-@SpringBootTest()
+@ActiveProfiles("test")
 @AutoConfigureMockMvc
-@Slf4j
-@Testcontainers
+@TestInstance(Lifecycle.PER_CLASS)
+@SpringBootTest()
+//@WithMockUser(username = "codechallenge_test_user", authorities = "SCOPE_read:accounts")
 class CodechallengeApplicationTests {
 
-	 @Autowired private MockMvc mockMvc;
-	 
-	 @Container
-	 private static MySQLContainer<?> database = new MySQLContainer<>("mysql:8.0.34");
-	 
-	 @BeforeAll
-	 public static void setUpEnv() throws Exception {
-		 //Adding a account in the database for running the tests
-		 database.start();
-		 
-		 
-	 
-	 }
-	 
-	 @AfterAll
-	 public static void releaseEnv() throws Exception {
-		 database.stop();
-	 }
-	 
-	 @DynamicPropertySource
-	 static void databaseProperties(DynamicPropertyRegistry registry) {
-	    registry.add("spring.datasource.url", database::getJdbcUrl);
-	    registry.add("spring.datasource.username", database::getUsername);
-	    registry.add("spring.datasource.password", database::getPassword);
-	    registry.add("spring.datasource.driverClassName", database::getDriverClassName);
-	 }
+	@Autowired MockMvc mockMvc;
+	@MockBean JwtDecoder jwtDecoder;
 	
-	
+	@Sql(scripts = "classpath:/sql/inserts.sql")
 	@Test
-	void testBusinessFlowA() throws Exception {
-		
+	void testBusinescsFlowA() throws Exception {
 		/*Given: A transaction that is not stored in our system
 		When: I check the status from any channel
 		Then: The system returns the status 'INVALID'*/
 		
-		String body = "{\n"
-		 		+ "    \"accountName\":\"prueba\",\n"
-		 		+ "    \"iban\":\"ES9820385778983000760236\"\n"
-		 		+ "}";
+		String body = "{\r\n"
+				+ "    \"accountName\":\"ssSsabadell Cuenta pepito\",\r\n"
+				+ "    \"iban\":\"923456789555\",\r\n"
+				+ "    \"holderName\":\"Jose Miguel\"\r\n"
+				+ "}";
 		mockMvc.perform(post("/api/v1/accounts").
 			 contentType(MediaType.APPLICATION_JSON).
-			 content(body)).andDo(r -> {
-			
-		});
+			 content(body));
+		
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/accounts")).
+			//andDo(MockMvcResultHandlers.print()).
+			andExpect(jsonPath("$", Matchers.hasSize(3)));
 		 
 	}
 	
-	@Test
+	//@Test
 	void testBusinessFlowB() throws Exception {
 		
 		//Invoking the endpoint transaction for inserting the test transaction

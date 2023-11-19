@@ -1,0 +1,21 @@
+{"namespace": "com.josemiguel.codechallenge.domain",
+ "type": "record",
+ "name": "Account",
+ "fields": [
+     {"name": "accountId", "type": "long"},
+     {"name": "balance", "type": "double"},
+     {"name": "accountName", "type": "string"},
+     {"name": "iban", "type": "string"},
+     {"name": "timestamp", "type": "string"},
+     {"name": "currency", "type": "string"},
+     {"name": "holderName", "type": "string", "default":"unknown"},
+     {"name":"accountType", 
+      "type":{
+      	 "type":"enum",
+      	 "symbols":["CASH_ACCOUNT"],
+      	 "name":"AccountType"
+      } 
+      
+     }
+ ]
+}

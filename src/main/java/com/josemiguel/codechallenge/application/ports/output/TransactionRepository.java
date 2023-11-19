@@ -10,7 +10,7 @@ import org.springframework.data.repository.NoRepositoryBean;
 import com.josemiguel.codechallenge.domain.model.entities.Transaction;
 
 @NoRepositoryBean
-public interface TransactionRepositoryRepository extends CrudRepository<Transaction, Long> {
+public interface TransactionRepository extends CrudRepository<Transaction, Long> {
 
 	public Optional<Transaction> findByReference(String reference);
 	

@@ -4,5 +4,5 @@ import com.josemiguel.codechallenge.domain.commands.CreateAccountCommand;
 
 public interface CreateAccountUseCase {
 
-	public void createAccount(CreateAccountCommand command);
+	public Long createAccount(CreateAccountCommand command);
 }

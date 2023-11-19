@@ -13,16 +13,16 @@ import com.josemiguel.codechallenge.infrastructure.errors.exceptions.NotSupporte
 
 import lombok.extern.slf4j.Slf4j;
 
-@ControllerAdvice
+//@ControllerAdvice
 @Slf4j
 public class ExceptionsHandler extends ResponseEntityExceptionHandler {
 
-	@ExceptionHandler(NotFoundAccoundExeption.class)
+	/*@ExceptionHandler(NotFoundAccoundExeption.class)
 	public ResponseEntity<ErrorDTO> handleNotFoundAccoundExeption(NotFoundAccoundExeption ex) {
 		var error = new ErrorDTO();
 		error.setDescription(ex.getMessage());
 		return ResponseEntity.ok().body(error);
-	}
+	}*/
 	
 	@ExceptionHandler(ExistingTransactionException.class)
 	public ResponseEntity<ErrorDTO> handleExistingTransactionException(ExistingTransactionException ex) {

@@ -8,7 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.josemiguel.codechallenge.application.ports.input.SearchTransactionsUseCase;
-import com.josemiguel.codechallenge.application.ports.output.TransactionRepositoryRepository;
+import com.josemiguel.codechallenge.application.ports.output.TransactionRepository;
 import com.josemiguel.codechallenge.domain.model.entities.Transaction;
 import com.josemiguel.codechallenge.infrastructure.errors.exceptions.ExistingTransactionException;
 import com.josemiguel.codechallenge.infrastructure.utils.Constants;
@@ -19,7 +19,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 class SearchTransactionsService implements SearchTransactionsUseCase {
 
-	private TransactionRepositoryRepository transactionRepository;
+	private TransactionRepository transactionRepository;
 	
 	@Override
 	public List<Transaction> searchTransactions(String iban, int sortByAmount) {

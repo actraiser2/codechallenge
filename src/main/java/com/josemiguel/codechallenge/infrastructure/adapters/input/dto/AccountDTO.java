@@ -13,5 +13,6 @@ public class AccountDTO {
 	private String iban;
 	private String currency;
 	private Long version;
+	private String holderName;
 
 }

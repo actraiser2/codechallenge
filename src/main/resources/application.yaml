@@ -1,6 +1,24 @@
 app:
   version: @project.version@
+server:
+  error:
+    include-message: always  
+  shutdown: graceful
 spring:
+  kafka:
+    bootstrap-servers:
+    - 192.168.1.39:9092
+    producer:
+      value-serializer: io.apicurio.registry.serde.avro.AvroKafkaSerializer
+      retries: 2
+      acks: 1
+    consumer:
+      value-deserializer: io.apicurio.registry.serde.avro.AvroKafkaDeserializer
+    properties:
+      "[schema.registry.url]": http://localhost:8082
+      "[apicurio.registry.url]": http://localhost:8083
+      "[apicurio.registry.artifact.group-id]": codechallenge
+      "[apicurio.registry.artifact.version]": 1
   datasource:
     url: jdbc:h2:/tmp/codechallenge;DB_CLOSE_ON_EXIT=FALSE
   jpa:
@@ -9,11 +27,37 @@ spring:
       naming:
         physical-strategy: com.josemiguel.codechallenge.infrastructure.naming.CodechallengeNamingStrategy
   cloud:
-    function:
-      definition: doSomething
+    stream: 
+      default-binder: kafka
+      bindings:
+        accounts-in-0:
+          destination: accounts
+          group: codechallenge
+          #content-type: application/*+avro
+          consumer:
+            max-attempts: 3
+            back-off-initial-interval: 5000
+            #use-native-decoding: true
+            
+        accounts-out-0:
+          destination: accounts
+          producer: 
+             useNativeEncoding: true
   batch:
     jdbc:
       initialize-schema: always
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9090/realms/josemi
+          
+resilience4j:
+  timelimiter:
+    instances:
+      createAccount:
+        timeout-duration: 5s
+
 management:
   server:
     port: 8081
@@ -27,29 +71,11 @@ management:
     health:
       show-details: always
       
-kafka:
-  username: josemi
-  password: 525700
-  hosts:
-    - josemi.com
-    - jalex.com
 springdoc:
   swagger-ui:
     path: /openapi/swagger-ui.html
   api-docs:
     path: /openapi/v3/api-docs
-    
----
-spring:
-  config:
-    activate:
-      on-profile:
-      - localhost
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: rabbitmq
-    password: fenix000
-      
-
-      
+logging:
+  level:
+    "[org.springframework]": info

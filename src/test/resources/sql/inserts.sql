@@ -1,0 +1,3 @@
+insert into TB_ACCOUNTS (ACCOUNT_ID,BALANCE,ACCOUNT_NAME,IBAN) values(100,1000, 'Cuenta Josemi', 'es12334444');
+	
+insert into TB_ACCOUNTS (ACCOUNT_ID,BALANCE,ACCOUNT_NAME,IBAN) values(101,100, 'Cuenta Alex', 'es12334445');	

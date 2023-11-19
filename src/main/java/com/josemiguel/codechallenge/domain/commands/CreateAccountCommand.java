@@ -6,7 +6,7 @@ import lombok.Builder;
 
 @Builder
 public record CreateAccountCommand(@NotEmpty String accountName,
-	@NotEmpty String iban) {
+	@NotEmpty String iban, @NotEmpty String holderName, Integer age) {
 
 	public CreateAccountCommand{
 		if (iban.length() < 10) {
