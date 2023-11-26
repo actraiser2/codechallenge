@@ -1,6 +1,7 @@
 package com.josemiguel.codechallenge.application.services;
 
 import javax.persistence.EntityManagerFactory;
+import javax.validation.Validator;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,7 @@ class CreateAccountService implements CreateAccountUseCase {
 
 	private AccountRepository accountRepository;
 	private EntityManagerFactory emf;
+	private Validator validator;
 	
 	@Override
 	//@TimeLimiter(name = "createAccount" )
@@ -29,6 +31,10 @@ class CreateAccountService implements CreateAccountUseCase {
 		// TODO Auto-generated method stub
 		
 		log.info("Creating new account:" + command);
+		
+		var constraints = validator.validate(command);
+		
+		log.info("Result validation:" + constraints);
 		
 		Account account = new Account(command);
 		accountRepository.save(account);

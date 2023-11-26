@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ExecutionException;
@@ -113,7 +112,7 @@ public class CodeChallengeController {
 		binaryEncoder.flush();
 		
 		log.info("Sent {} bytes", out.toByteArray().length);*/
-		streamBridge.send("accounts-out-0", account);
+		//streamBridge.send("accounts-out-0", account);
 					
 	
 		return ResponseEntity.status(201).build();
@@ -122,12 +121,15 @@ public class CodeChallengeController {
 	@GetMapping(value = "/accounts", consumes = "*/*")
 	@Operation(description = "This method lists all the accounts")
 	@Transactional(isolation = Isolation.SERIALIZABLE)
-	public ResponseEntity<List<AccountDTO>> accounts(JwtAuthenticationToken  jwtToken) throws InterruptedException {
+	public List<AccountDTO> accounts(JwtAuthenticationToken  jwtToken) throws InterruptedException {
 		
-		var accounts = transactionTemplate.execute(status -> accountRepository.findAllByOrderByAccountId());
+		var accounts = transactionTemplate.execute(status -> accountRepository.findTop10ByOrderByAccountIdDesc());
 		
 		//log.info("Accessing all accounts:" + accounts);
-		return ResponseEntity.of(Optional.ofNullable(accountMapper.toListAccountDTO(accounts)));
+		//return ResponseEntity.of(Optional.ofNullable(accountMapper.toListAccountDTO(accounts)));
+		try(var accountsStream = accountRepository.findTop20ByOrderByAccountIdDesc().stream()){
+			return accountMapper.toListAccountDTO(accountsStream.toList());
+		}
 	}
 	
 	@PostMapping("/transactions")
