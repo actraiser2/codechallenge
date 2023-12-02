@@ -5,7 +5,8 @@ server:
     include-message: always  
   shutdown: graceful
 spring:
-  kafka:
+  kafkar:
+    
     bootstrap-servers:
     - 192.168.1.39:9092
     producer:
@@ -35,6 +36,7 @@ spring:
           group: codechallenge
           #content-type: application/*+avro
           consumer:
+            auto-startup: false
             max-attempts: 3
             back-off-initial-interval: 5000
             #use-native-decoding: true
