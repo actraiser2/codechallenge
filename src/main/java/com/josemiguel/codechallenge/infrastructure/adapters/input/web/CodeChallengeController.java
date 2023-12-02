@@ -15,11 +15,10 @@ import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.integration.support.MessageBuilder;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -79,7 +78,7 @@ public class CodeChallengeController {
 	private RabbitTemplate rabbitTemplate;
 	private TransactionMapper transactionMapper;
 	private AccountMapper accountMapper;
-	private StreamBridge streamBridge;
+	//private StreamBridge streamBridge;
 	private TransactionTemplate transactionTemplate;
 	
 	@PostMapping("/accounts")
@@ -180,7 +179,7 @@ public class CodeChallengeController {
 	private void sendMessage(String bindingName, Event<Long, CreateAccountCommand> event) {
 		var message = MessageBuilder.withPayload(event).
 				setHeader("partitionKey", event.getKey()).build();
-		streamBridge.send(bindingName, message);
+		//streamBridge.send(bindingName, message);
 		
 		
 	}

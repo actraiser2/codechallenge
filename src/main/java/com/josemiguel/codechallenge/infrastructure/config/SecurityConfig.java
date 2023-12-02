@@ -16,6 +16,7 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.authorizeRequests().
 			antMatchers("/openapi/**").permitAll().
+			antMatchers("/management/**").permitAll().
 			anyRequest().
 			hasAuthority("SCOPE_read:accounts").and().
 			oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt).csrf().disable();

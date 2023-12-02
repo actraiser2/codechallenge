@@ -72,6 +72,9 @@ management:
   endpoint:
     health:
       show-details: always
+  health:
+    rabbit:
+      enabled: false
       
 springdoc:
   swagger-ui:

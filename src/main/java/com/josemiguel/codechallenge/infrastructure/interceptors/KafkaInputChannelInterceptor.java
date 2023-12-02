@@ -1,11 +1,9 @@
 package com.josemiguel.codechallenge.infrastructure.interceptors;
 
 import org.apache.commons.codec.binary.Hex;
-import org.springframework.integration.config.GlobalChannelInterceptor;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.support.ChannelInterceptor;
-import org.springframework.stereotype.Component;
 
 import com.nimbusds.jose.util.Base64;
 
