@@ -17,6 +17,7 @@ public class SecurityConfig {
 		httpSecurity.authorizeRequests().
 			antMatchers("/openapi/**").permitAll().
 			antMatchers("/management/**").permitAll().
+			antMatchers("/**/sayHello").permitAll().
 			anyRequest().
 			hasAuthority("SCOPE_read:accounts").and().
 			oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt).csrf().disable();
