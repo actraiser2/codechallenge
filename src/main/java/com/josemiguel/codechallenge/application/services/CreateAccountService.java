@@ -12,17 +12,18 @@ import com.josemiguel.codechallenge.domain.commands.CreateAccountCommand;
 import com.josemiguel.codechallenge.domain.model.aggregates.Account;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 //@Transactional
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 class CreateAccountService implements CreateAccountUseCase {
 
-	private AccountRepository accountRepository;
-	private EntityManagerFactory emf;
-	private Validator validator;
+	private final AccountRepository accountRepository;
+	private final EntityManagerFactory emf;
+	private final Validator validator;
 	
 	@Override
 	//@TimeLimiter(name = "createAccount" )

@@ -4,6 +4,8 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
+import com.josemiguel.codechallenge.infrastructure.errors.exceptions.AccountValidationException;
+
 import lombok.Builder;
 
 @Builder
@@ -12,7 +14,7 @@ public record CreateAccountCommand(@NotEmpty String accountName,
 
 	public CreateAccountCommand{
 		if (iban.length() < 10) {
-			throw new IllegalArgumentException("The iban can not be less than 10");
+			throw new AccountValidationException();
 		}
 	}
 }

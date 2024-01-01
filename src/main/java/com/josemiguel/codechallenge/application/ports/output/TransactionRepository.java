@@ -16,4 +16,6 @@ public interface TransactionRepository extends CrudRepository<Transaction, Long>
 	
 	public Optional<List<Transaction>> findTransactionsByAccountIban(String iban, 
 			Pageable pageable);
+	
+	public List<Transaction> findAll();
 }

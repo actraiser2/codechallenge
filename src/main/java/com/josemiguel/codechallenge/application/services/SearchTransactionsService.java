@@ -14,12 +14,13 @@ import com.josemiguel.codechallenge.infrastructure.errors.exceptions.ExistingTra
 import com.josemiguel.codechallenge.infrastructure.utils.Constants;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 class SearchTransactionsService implements SearchTransactionsUseCase {
 
-	private TransactionRepository transactionRepository;
+	private final TransactionRepository transactionRepository;
 	
 	@Override
 	public List<Transaction> searchTransactions(String iban, int sortByAmount) {

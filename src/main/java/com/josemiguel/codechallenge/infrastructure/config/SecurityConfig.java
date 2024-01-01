@@ -16,11 +16,13 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.authorizeRequests().
 			antMatchers("/openapi/**").permitAll().
+			antMatchers("/h2-console/**").permitAll().
 			antMatchers("/management/**").permitAll().
 			antMatchers("/**/sayHello").permitAll().
 			anyRequest().
 			hasAuthority("SCOPE_read:accounts").and().
-			oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt).csrf().disable();
+			oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt).
+			csrf().disable().cors();
 		
 		return httpSecurity.build();
 	}

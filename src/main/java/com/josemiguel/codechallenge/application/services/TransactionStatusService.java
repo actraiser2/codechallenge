@@ -15,11 +15,12 @@ import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.Transactio
 import com.josemiguel.codechallenge.infrastructure.errors.exceptions.NotSupportedBusinesFlowException;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 class TransactionStatusService implements TransactionStatusUseCase {
-	private TransactionRepository transactionRepository;
+	private final TransactionRepository transactionRepository;
 	
 	
 	@Override

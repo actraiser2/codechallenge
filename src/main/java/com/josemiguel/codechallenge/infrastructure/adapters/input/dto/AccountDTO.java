@@ -2,12 +2,19 @@ package com.josemiguel.codechallenge.infrastructure.adapters.input.dto;
 
 import java.math.BigDecimal;
 
-import lombok.Data;
+import javax.validation.constraints.NotNull;
 
-@Data
+import lombok.Builder;
+import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
+
+@Value
+@Jacksonized
+@Builder
 public class AccountDTO {
-
+	@NotNull 
 	private Long accountId;
+	@NotNull 
 	private BigDecimal balance;
 	private String accountName;
 	private String iban;

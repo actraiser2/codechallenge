@@ -13,4 +13,6 @@ public interface AccountMapper {
 
 	public List<AccountDTO> toListAccountDTO(List<Account> accounts);
 	
+	public AccountDTO toAccountDTO(Account account);
+	
 }

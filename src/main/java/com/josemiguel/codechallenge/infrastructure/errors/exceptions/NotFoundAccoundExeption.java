@@ -3,11 +3,11 @@ package com.josemiguel.codechallenge.infrastructure.errors.exceptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Value;
 
-@ResponseStatus(code = HttpStatus.BAD_GATEWAY)
-@Data
+@ResponseStatus(code = HttpStatus.NOT_FOUND)
+@Value
 @EqualsAndHashCode(callSuper=false)
 public class NotFoundAccoundExeption extends RuntimeException {
 
@@ -19,10 +19,13 @@ public class NotFoundAccoundExeption extends RuntimeException {
 	
 	public NotFoundAccoundExeption(Long accountId) {
 		super("Account not found:" + accountId);
+		this.accountId = accountId;
+		
 	}
 	
 	public NotFoundAccoundExeption(String message) {
 		super(message);
+		accountId = 0l;
 	}
 
 }

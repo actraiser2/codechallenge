@@ -16,16 +16,17 @@ import com.josemiguel.codechallenge.infrastructure.errors.exceptions.ExistingTra
 import com.josemiguel.codechallenge.infrastructure.errors.exceptions.NotFoundAccoundExeption;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Transactional
 class CreateTransactionService implements CreateTransactionUseCase {
 
-	private AccountRepository accountRepository;
-	private TransactionRepository transactionRepository;
+	private final AccountRepository accountRepository;
+	private final TransactionRepository transactionRepository;
 	
 	@Override
 	public void createTransaction(CreateTransactionCommand command) {

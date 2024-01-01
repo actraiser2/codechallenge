@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.NoRepositoryBean;
-import org.springframework.data.util.Streamable;
 
 import com.josemiguel.codechallenge.domain.model.aggregates.Account;
 
@@ -22,5 +21,5 @@ public interface AccountRepository extends CrudRepository<Account, Long>{
 	@Modifying
 	public void updateBalance(Long accountId, BigDecimal balance);
 	public List<Account> findTop10ByOrderByAccountIdDesc();
-	public Streamable<Account> findTop20ByOrderByAccountIdDesc();
-};
+	public List<Account> findTop100ByOrderByAccountIdDesc();
+}

@@ -1,8 +1,6 @@
 package com.josemiguel.codechallenge.infrastructure.adapters.input.web;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -15,16 +13,17 @@ import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.support.MessageBuilder;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,13 +36,12 @@ import com.josemiguel.codechallenge.application.ports.input.CreateTransactionUse
 import com.josemiguel.codechallenge.application.ports.input.SearchTransactionsUseCase;
 import com.josemiguel.codechallenge.application.ports.input.TransactionStatusUseCase;
 import com.josemiguel.codechallenge.application.ports.output.AccountRepository;
-import com.josemiguel.codechallenge.domain.Account;
-import com.josemiguel.codechallenge.domain.AccountType;
 import com.josemiguel.codechallenge.domain.commands.CreateAccountCommand;
 import com.josemiguel.codechallenge.domain.commands.CreateTransactionCommand;
 import com.josemiguel.codechallenge.domain.model.entities.Transaction;
 import com.josemiguel.codechallenge.domain.model.events.Event;
 import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.AccountDTO;
+import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.AccountListDTO;
 import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.TransactionDTO;
 import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.TransactionStatusRequestDTO;
 import com.josemiguel.codechallenge.infrastructure.config.props.KafkaConfigProperties;
@@ -62,6 +60,7 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 @Tag(name = "Services available for the project code challenge")
 @Slf4j
+@CrossOrigin()
 public class CodeChallengeController {
 
 	private CreateAccountUseCase createAccountUseCase;
@@ -92,7 +91,7 @@ public class CodeChallengeController {
 		//rabbitTemplate.convertAndSend("accounts", command);
 		
 		
-		var dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		/*var dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		var account = Account.newBuilder().
 			setIban(command.iban()).setCurrency("Eur").
 			setTimestamp(dateFormatter.format(LocalDate.now())).
@@ -101,7 +100,7 @@ public class CodeChallengeController {
 			setAccountName(command.accountName()).
 			setAccountType(AccountType.CASH_ACCOUNT).
 			setHolderName(command.holderName()).
-			build();
+			build();*/
 		
 		/*DatumWriter<Account> userDatumWriter = new SpecificDatumWriter<>(Account.class);
 		var out = new ByteArrayOutputStream();
@@ -119,16 +118,24 @@ public class CodeChallengeController {
 	
 	@GetMapping(value = "/accounts", consumes = "*/*")
 	@Operation(description = "This method lists all the accounts")
-	@Transactional(isolation = Isolation.SERIALIZABLE)
-	public List<AccountDTO> accounts(JwtAuthenticationToken  jwtToken) throws InterruptedException {
+	@Transactional
+	//@Cacheable(cacheNames = "accountsCache")
+	public AccountListDTO accounts(){
 		
 		var accounts = transactionTemplate.execute(status -> accountRepository.findTop10ByOrderByAccountIdDesc());
 		
-		//log.info("Accessing all accounts:" + accounts);
+		log.info("Accessing all accounts:" + accounts);
 		//return ResponseEntity.of(Optional.ofNullable(accountMapper.toListAccountDTO(accounts)));
-		try(var accountsStream = accountRepository.findTop20ByOrderByAccountIdDesc().stream()){
-			return accountMapper.toListAccountDTO(accountsStream.toList());
+		try(var accountsStream = accountRepository.findTop100ByOrderByAccountIdDesc().stream()){
+			return new AccountListDTO(accountMapper.toListAccountDTO(accountsStream.toList()));
 		}
+	}
+	
+	@GetMapping("/accounts/{accountId}")
+	@Cacheable("accountCache")
+	public AccountDTO getAccount(@PathVariable Long accountId) {
+		return accountMapper.toAccountDTO(accountRepository.
+			findById(accountId).orElseThrow());
 	}
 	
 	@PostMapping("/transactions")
@@ -140,6 +147,7 @@ public class CodeChallengeController {
 	
 	@GetMapping(value = "/transactions", consumes = "*/*")
 	@Operation(description = "This method is used for querying movements using a couple filters")
+	@Cacheable(value = "transactions", key = "#iban")
 	public List<TransactionDTO> searchTransactions(@RequestParam String iban, @RequestParam int sortByAmount) {
 		
 		var transactions = searchTransactionsUseCase.searchTransactions(iban, sortByAmount);
@@ -161,19 +169,25 @@ public class CodeChallengeController {
 	@Operation(description = "This method is used for updating the balance")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	@Transactional
-	public void transactionStatus(@RequestBody AccountDTO account) {
+	public void transactionStatus(@Valid @RequestBody AccountDTO account) {
 		Objects.requireNonNull(account.getBalance());
 		Objects.requireNonNull(account.getAccountId());
+
 		
 		accountRepository.updateBalance(account.getAccountId(), account.getBalance());
 		
 	}
 	
 	@GetMapping(value = "sayHello", consumes = "*/*")
+	@Cacheable(cacheNames = "heyWorld")
 	public CompletionStage<String> sayHello(@RequestParam String name) throws InterruptedException {
-		Thread.sleep(5000);
 		
-		return CompletableFuture.supplyAsync(() -> "Hello " + name);
+		return CompletableFuture.supplyAsync(() -> {
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {}
+			return "Hello " + name;
+		});
 	}
 	
 	private void sendMessage(String bindingName, Event<Long, CreateAccountCommand> event) {
