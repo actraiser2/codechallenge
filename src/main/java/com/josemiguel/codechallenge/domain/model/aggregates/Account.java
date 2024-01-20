@@ -9,7 +9,6 @@ import javax.persistence.AccessType;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,9 +18,7 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.envers.Audited;
 import org.springframework.data.annotation.Immutable;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.josemiguel.codechallenge.domain.commands.CreateAccountCommand;
 import com.josemiguel.codechallenge.domain.commands.CreateTransactionCommand;
@@ -41,8 +38,6 @@ import lombok.extern.slf4j.Slf4j;
 @Data()
 @NoArgsConstructor
 @Slf4j
-@EntityListeners(AuditingEntityListener.class)
-@Audited
 public class Account extends AuditingEntity	{
 
 	@Id
