@@ -14,7 +14,6 @@ import lombok.extern.jackson.Jacksonized;
 
 @Value
 @Builder
-@Jacksonized
 public class TransactionDTO {
 
 	private String reference;

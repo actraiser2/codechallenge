@@ -2,6 +2,7 @@ package com.josemiguel.codechallenge.infrastructure.adapters.input.web;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -13,11 +14,11 @@ import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -39,15 +40,19 @@ import com.josemiguel.codechallenge.application.ports.output.AccountRepository;
 import com.josemiguel.codechallenge.domain.commands.CreateAccountCommand;
 import com.josemiguel.codechallenge.domain.commands.CreateTransactionCommand;
 import com.josemiguel.codechallenge.domain.model.entities.Transaction;
-import com.josemiguel.codechallenge.domain.model.events.Event;
 import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.AccountDTO;
 import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.AccountListDTO;
+import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.ForecastDTO;
 import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.TransactionDTO;
 import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.TransactionStatusRequestDTO;
+import com.josemiguel.codechallenge.infrastructure.adapters.output.amqp.AmqpEventPub;
+import com.josemiguel.codechallenge.infrastructure.adapters.output.feign.WeatherClientApi;
 import com.josemiguel.codechallenge.infrastructure.config.props.KafkaConfigProperties;
 import com.josemiguel.codechallenge.infrastructure.mappers.AccountMapper;
 import com.josemiguel.codechallenge.infrastructure.mappers.TransactionMapper;
 
+import io.github.resilience4j.retry.annotation.Retry;
+import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import io.micrometer.core.annotation.Counted;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.swagger.v3.oas.annotations.Operation;
@@ -79,6 +84,8 @@ public class CodeChallengeController {
 	private AccountMapper accountMapper;
 	//private StreamBridge streamBridge;
 	private TransactionTemplate transactionTemplate;
+	private WeatherClientApi weatherClientApi;
+	
 	
 	@PostMapping("/accounts")
 	@Operation(description = "This method allows you to insert a new account")
@@ -188,14 +195,18 @@ public class CodeChallengeController {
 			} catch (InterruptedException e) {}
 			return "Hello " + name;
 		});
+		
 	}
 	
-	private void sendMessage(String bindingName, Event<Long, CreateAccountCommand> event) {
-		var message = MessageBuilder.withPayload(event).
-				setHeader("partitionKey", event.getKey()).build();
-		//streamBridge.send(bindingName, message);
-		
-		
+	@PostMapping("forecast")
+	@TimeLimiter(name = "weatherResilience")
+	@Retry(name = "weatherResilience")
+	public CompletionStage<Map<String, Object>> forecast(@RequestBody ForecastDTO forecast) throws InterruptedException, ExecutionException {
+		log.info("weatherClientApi:" + weatherClientApi);
+		return CompletableFuture.supplyAsync(() -> weatherClientApi.forecast(forecast.getLongitude(), 
+						forecast.getLatitude(), 
+						"temperature_2m,wind_speed_10m",
+						"temperature_2m,relative_humidity_2m,wind_speed_10m"));
 	}
 	
 }

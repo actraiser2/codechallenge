@@ -5,6 +5,13 @@ server:
     include-message: always  
   shutdown: graceful
 spring:
+  application:
+    name: codechallenge
+  rabbitmq:
+    host: localhost
+    username: rabbitmq
+    password: fenix000
+    port: 5672
   kafkar:
     
     bootstrap-servers:
@@ -65,6 +72,13 @@ resilience4j:
     instances:
       createAccount:
         timeout-duration: 5s
+      weatherResilience:
+        timeout-duration: 10s
+  retry:
+    instances:
+      weatherResilience:
+        max-attempts: 3
+        wait-duration: 2s
 
 management:
   server:
@@ -90,9 +104,16 @@ springdoc:
 logging:
   level:
     "[org.springframework]": info
+amqp:
+  exchange:
+    account-created: account-created.topic
+  queue:
+    account-created: ${spring.application.name}.queue
 
 santalucia:
   ams:
     cache:
       enabled: true
       expireAfter: 60
+weather:
+  url: https://api.open-meteo.com/v1

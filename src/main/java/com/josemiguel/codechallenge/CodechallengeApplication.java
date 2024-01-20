@@ -3,6 +3,7 @@ package com.josemiguel.codechallenge;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.data.envers.repository.config.EnableEnversRepositories;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
@@ -13,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @EnableJpaAuditing
 @Slf4j
 @EnableEnversRepositories
-//@EnableTransactionManagement
+@EnableFeignClients(basePackages = "com.josemiguel.codechallenge")
 public class CodechallengeApplication {
 
 	public static void main(String[] args) {
