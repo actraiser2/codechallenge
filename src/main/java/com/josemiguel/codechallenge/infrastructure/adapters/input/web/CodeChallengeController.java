@@ -40,6 +40,7 @@ import com.josemiguel.codechallenge.application.ports.output.AccountRepository;
 import com.josemiguel.codechallenge.domain.commands.CreateAccountCommand;
 import com.josemiguel.codechallenge.domain.commands.CreateTransactionCommand;
 import com.josemiguel.codechallenge.domain.model.entities.Transaction;
+import com.josemiguel.codechallenge.domain.model.events.AccountCreatedEvent;
 import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.AccountDTO;
 import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.AccountListDTO;
 import com.josemiguel.codechallenge.infrastructure.adapters.input.dto.ForecastDTO;
@@ -58,33 +59,33 @@ import io.micrometer.core.instrument.MeterRegistry;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping(value = "/api/v1")
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Tag(name = "Services available for the project code challenge")
 @Slf4j
 @CrossOrigin()
 public class CodeChallengeController {
 
-	private CreateAccountUseCase createAccountUseCase;
-	private CreateTransactionUseCase createTransactionUseCase;
-	private SearchTransactionsUseCase searchTransactionsUseCase;
-	private TransactionStatusUseCase transactionStatusUseCase;
-	private MeterRegistry meterRegistry;
-	private Environment env;
-	private AccountRepository accountRepository;
-	private List<KafkaConfigProperties> kafkaPropertiesList;
-	private EntityManagerFactory emf;
+	private final CreateAccountUseCase createAccountUseCase;
+	private final CreateTransactionUseCase createTransactionUseCase;
+	private final SearchTransactionsUseCase searchTransactionsUseCase;
+	private final TransactionStatusUseCase transactionStatusUseCase;
+	private final MeterRegistry meterRegistry;
+	private final Environment env;
+	private final AccountRepository accountRepository;
 	@PersistenceContext
 	private final EntityManager entityManager;
-	private RabbitTemplate rabbitTemplate;
-	private TransactionMapper transactionMapper;
-	private AccountMapper accountMapper;
+	private final TransactionMapper transactionMapper;
+	private final AccountMapper accountMapper;
 	//private StreamBridge streamBridge;
-	private TransactionTemplate transactionTemplate;
-	private WeatherClientApi weatherClientApi;
+	private final TransactionTemplate transactionTemplate;
+	private final WeatherClientApi weatherClientApi;
+	private final AmqpEventPub eventPub;
+
 	
 	
 	@PostMapping("/accounts")
@@ -186,13 +187,12 @@ public class CodeChallengeController {
 	}
 	
 	@GetMapping(value = "sayHello", consumes = "*/*")
-	@Cacheable(cacheNames = "heyWorld")
+	//@Cacheable(cacheNames = "heyWorld")
 	public CompletionStage<String> sayHello(@RequestParam String name) throws InterruptedException {
 		
 		return CompletableFuture.supplyAsync(() -> {
-			try {
-				Thread.sleep(3000);
-			} catch (InterruptedException e) {}
+			eventPub.sendEventAccountCreated(AccountCreatedEvent.builder().
+					balance(0d).accountId(1l).iban("es123456789").build());
 			return "Hello " + name;
 		});
 		
