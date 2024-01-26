@@ -19,7 +19,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -49,6 +52,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @ExtendWith(MockitoExtension.class)
 @AutoConfigureJsonTesters
+@EnableAutoConfiguration(exclude = RabbitAutoConfiguration.class)
 //@WithMockUser(username = "codechallenge_test_user", authorities = "SCOPE_read:accounts")
 class CodechallengeApplicationTests implements WithAssertions {
 
@@ -58,6 +62,7 @@ class CodechallengeApplicationTests implements WithAssertions {
 	@Autowired JacksonTester<AccountListDTO> jsonAccountListDTO;
 	@Autowired JacksonTester<CreateAccountCommand> jsonCreateAccountCommand;
 	@Autowired JacksonTester<AccountDTO> jsonAccountDTO;
+	@MockBean AmqpTemplate amqpTemplate;
 	
 	@BeforeEach
 	public void setup() {

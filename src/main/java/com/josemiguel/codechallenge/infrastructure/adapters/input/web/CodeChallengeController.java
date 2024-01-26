@@ -133,10 +133,8 @@ public class CodeChallengeController {
 		var accounts = transactionTemplate.execute(status -> accountRepository.findTop10ByOrderByAccountIdDesc());
 		
 		log.info("Accessing all accounts:" + accounts);
-		//return ResponseEntity.of(Optional.ofNullable(accountMapper.toListAccountDTO(accounts)));
-		try(var accountsStream = accountRepository.findTop100ByOrderByAccountIdDesc().stream()){
-			return new AccountListDTO(accountMapper.toListAccountDTO(accountsStream.toList()));
-		}
+		return AccountListDTO.builder()
+				.accountList(accountMapper.toListAccountDTO(accounts)).build();
 	}
 	
 	@GetMapping("/accounts/{accountId}")

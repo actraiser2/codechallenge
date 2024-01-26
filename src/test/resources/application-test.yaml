@@ -6,10 +6,16 @@ spring:
       ddl-auto: create-drop
     show-sql: true
 
+    
+
 logging:
   level:
     org: 
       springframework: info
+      
+
+  
+  
 
 santalucia:
   ams:
