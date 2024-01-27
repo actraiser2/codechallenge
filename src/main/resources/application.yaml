@@ -12,7 +12,7 @@ spring:
     username: rabbitmq
     password: fenix000
     port: 5672
-  kafkar:
+  kafkarr:
     
     bootstrap-servers:
     - 192.168.1.39:9092
