@@ -300,7 +300,7 @@
 		        <version>3.4.0</version>
 		        <configuration>
 		          <to>
-		            <image>docker.io/actraiser/${pom.name}/image>
+		            <image>docker.io/actraiser/${project.name}</image>
 		            <auth>
 						<username>${env.DOCKER_USERNAME}</username>
 						<password>${env.DOCKER_PASSWORD}</password>
