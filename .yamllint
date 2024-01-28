@@ -1,0 +1,13 @@
+---
+extends: default
+
+
+ignore:
+  - web/
+  - target/
+
+rules:
+  new-lines: disable
+  line-length:
+    max: 80
+    level: warning
