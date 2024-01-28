@@ -71,7 +71,7 @@ resilience4j:
   timelimiter:
     instances:
       createAccount:
-        timeout-duration: 5s
+        timeout-duration: 4s
       weatherResilience:
         timeout-duration: 10s
   retry:
